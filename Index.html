@@ -1,0 +1,2185 @@
+<!DOCTYPE html>
+<!-- MOBILE-FIRST VERTICAL HARD-LOCK -->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dual.Infodose · Hub1 Solar+IA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#050816" />
+
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192.png" />
+
+  <style>
+    :root{
+      --bg-top: #07152a;
+      --bg-mid: #040718;
+      --bg-bottom: #1f0b06;
+
+      --accent-blue: #39c5ff;
+      --accent-warm: #ff9a3c;
+      --accent-soft: #ffce8a;
+
+      --pill-bg: rgba(10, 18, 36, 0.92);
+      --pill-border: rgba(255, 255, 255, 0.12);
+      --pill-soft: rgba(9, 16, 31, 0.9);
+
+      --text-main: #f9fbff;
+      --text-soft: #c1c7dd;
+      --text-muted: #8b92a6;
+
+      --danger: #ff6b81;
+      --success: #60f7b3;
+
+      --radius-lg: 32px;
+      --radius-md: 22px;
+      --radius-pill: 999px;
+
+      --shadow-soft: 0 26px 80px rgba(0,0,0,0.9);
+      --shadow-pill: 0 22px 60px rgba(0,0,0,0.85);
+
+      --gap: 14px;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html,body{
+      min-height:100vh;
+      font-family:-apple-system, system-ui, BlinkMacSystemFont, "SF Pro Text", Inter, Roboto, sans-serif;
+      -webkit-font-smoothing:antialiased;
+      color:var(--text-main);
+      background:radial-gradient(circle at top left, #14254a 0%, #050816 42%, #11070b 80%, #1c0d05 100%);
+      transition: background 420ms ease-out, color 220ms ease-out;
+    }
+
+    body[data-mood="madrugada"]{
+      background:
+        radial-gradient(circle at 50% -20%, #02020c 0%, #030514 35%, #050816 65%, #020109 100%);
+    }
+    body[data-mood="manha"]{
+      background:radial-gradient(circle at 0% 0%, #1c3f7a 0%, #050816 46%, #1b0d05 100%);
+    }
+    body[data-mood="tarde"]{
+      background:radial-gradient(circle at 0% 10%, #062743 0%, #140819 38%, #3a1306 80%, #5a2a0d 100%);
+    }
+    body[data-mood="noite"]{
+      background:radial-gradient(circle at 0% -10%, #020616 0%, #050816 45%, #07040b 100%);
+    }
+
+    body[data-theme="nebula"] .app{
+      background:
+        radial-gradient(circle at 0% -20%, rgba(61,122,255,0.24), transparent 60%),
+        radial-gradient(circle at 120% 120%, rgba(255,120,55,0.35), transparent 55%),
+        linear-gradient(160deg, rgba(12,15,30,0.96), rgba(5,7,16,0.98));
+    }
+    body[data-theme="madeira"]{
+      --accent-blue: #f3b05e;
+      --accent-warm: #f7b36b;
+      --accent-soft: #ffe3b0;
+      --pill-bg: rgba(23, 13, 5, 0.94);
+      --pill-soft: rgba(28, 14, 7, 0.94);
+    }
+    body[data-theme="madeira"] .app{
+      background:
+        radial-gradient(circle at 0% -20%, rgba(139,96,50,0.45), transparent 60%),
+        radial-gradient(circle at 120% 120%, rgba(255,158,94,0.45), transparent 55%),
+        linear-gradient(160deg, rgba(22,12,6,0.98), rgba(8,4,2,0.98));
+    }
+
+    body{
+      display:block;
+      padding:18px 16px calc(18px + var(--safe-bottom));
+      overflow-x:hidden;
+    }
+
+    @keyframes soft-orb-glow {
+      0%,100% {
+        box-shadow:0 0 14px rgba(255,176,88,0.55);
+        transform:translateY(0);
+      }
+      50% {
+        box-shadow:0 0 26px rgba(255,214,160,0.95);
+        transform:translateY(-0.5px);
+      }
+    }
+    @keyframes soft-pulse-dot {
+      0%,100% {
+        box-shadow:0 0 10px rgba(96,247,179,0.9);
+        transform:scale(1);
+      }
+      50% {
+        box-shadow:0 0 18px rgba(96,247,179,1);
+        transform:scale(1.08);
+      }
+    }
+
+    .app{
+      width:100%;
+      max-width:430px;
+      margin:0 auto;
+      border-radius:36px;
+      box-shadow:var(--shadow-soft);
+      padding:16px 16px calc(18px + var(--safe-bottom));
+      position:relative;
+      overflow:hidden;
+      isolation:isolate;
+      backdrop-filter:blur(18px);
+      transition:background 420ms ease-out, box-shadow 260ms ease-out, transform 220ms ease-out;
+    }
+    .app::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at 8% 0%, rgba(77,141,255,0.45), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(255,131,58,0.6), transparent 60%),
+        radial-gradient(circle at 50% 120%, rgba(255,230,160,0.26), transparent 60%);
+      opacity:0.8;
+      filter:blur(10px);
+      z-index:-2;
+    }
+    .app::after{
+      content:"";
+      position:absolute;
+      inset:14px;
+      border-radius:30px;
+      border:1px solid rgba(255,255,255,0.06);
+      box-shadow:0 0 0 1px rgba(255,255,255,0.03) inset;
+      pointer-events:none;
+      z-index:-1;
+    }
+
+    .app-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:12px;
+    }
+    .brand-pill{
+      padding:6px 12px;
+      border-radius:999px;
+      background:rgba(9,16,35,0.92);
+      border:1px solid rgba(255,255,255,0.16);
+      font-size:11px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:var(--text-soft);
+      backdrop-filter:blur(10px);
+    }
+    .mode-pill{
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.12);
+      background:linear-gradient(120deg, rgba(57,197,255,0.28), rgba(255,154,60,0.36));
+      font-size:11px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      color:#0b0f18;
+      font-weight:600;
+      cursor:pointer;
+      transition:background .2s ease-out, transform .16s ease-out, box-shadow .26s ease-out;
+      box-shadow:0 10px 25px rgba(0,0,0,0.6);
+    }
+    .mode-pill span.dot{
+      width:7px;height:7px;border-radius:999px;
+      background:var(--success);
+      box-shadow:0 0 10px rgba(96,247,179,0.9);
+      animation:soft-pulse-dot 2.4s ease-in-out infinite;
+    }
+    .mode-pill:active{
+      transform:scale(0.96) translateY(1px);
+      box-shadow:0 6px 15px rgba(0,0,0,0.7);
+    }
+
+    .app-main{
+      display:flex;
+      flex-direction:column;
+      gap:var(--gap);
+    }
+
+    .hero-card{
+      border-radius:var(--radius-lg);
+      background:radial-gradient(circle at top left, rgba(46,115,255,0.55), rgba(18,37,82,0.72) 40%, rgba(13,19,40,0.92) 80%);
+      box-shadow:var(--shadow-pill);
+      padding:16px 16px 14px;
+      border:1px solid rgba(144,184,255,0.35);
+      position:relative;
+      overflow:hidden;
+      backdrop-filter:blur(18px);
+      transition:border-color .22s ease-out, box-shadow .22s ease-out, background .22s ease-out, transform .18s ease-out;
+    }
+    .hero-card::before{
+      content:"";
+      position:absolute;
+      inset:-25%;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(255,255,255,0.25), transparent 55%),
+        radial-gradient(circle at 120% 120%, rgba(255,164,92,0.32), transparent 55%);
+      opacity:0.32;
+      mix-blend-mode:screen;
+      pointer-events:none;
+    }
+    .hero-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:4px;
+      position:relative;
+      z-index:1;
+    }
+    .hero-time{
+      font-size:12px;
+      color:rgba(228,235,255,0.86);
+      opacity:.85;
+    }
+    .hero-voice{
+      width:26px;height:26px;border-radius:999px;
+      border:1px solid rgba(255,255,255,0.4);
+      background:radial-gradient(circle, rgba(7,12,26,0.95), rgba(2,4,12,0.95));
+      display:grid;place-items:center;
+      color:var(--accent-soft);
+      box-shadow:0 0 0 1px rgba(0,0,0,0.65),0 10px 25px rgba(0,0,0,0.7);
+      font-size:14px;
+      cursor:pointer;
+      transition:transform .16s ease-out, box-shadow .2s ease-out, border-color .2s ease-out;
+    }
+    .hero-voice:active{
+      transform:scale(0.94) translateY(1px);
+      box-shadow:0 4px 14px rgba(0,0,0,0.8);
+      border-color:rgba(255,214,160,0.9);
+    }
+    .hero-title{
+      font-size:22px;
+      font-weight:700;
+      margin-bottom:2px;
+      letter-spacing:.03em;
+      position:relative;
+      z-index:1;
+    }
+    .hero-subtitle{
+      font-size:13px;
+      color:var(--text-soft);
+      position:relative;
+      z-index:1;
+    }
+    .hero-slider{
+      margin-top:12px;
+      position:relative;
+      z-index:1;
+    }
+    .hero-slider-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      font-size:11px;
+      color:rgba(223,229,255,0.92);
+      margin-bottom:6px;
+    }
+    .hero-slider-row span.label-mood{
+      padding:4px 10px;
+      border-radius:999px;
+      background:rgba(3,8,23,0.9);
+      border:1px solid rgba(255,255,255,0.18);
+      font-size:11px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      backdrop-filter:blur(8px);
+    }
+    .label-mood i{
+      width:6px;height:6px;border-radius:999px;
+      background:var(--accent-blue);
+      box-shadow:0 0 12px rgba(57,197,255,0.9);
+    }
+    .range-wrap{
+      position:relative;
+      width:100%;
+      padding-inline:3px;
+    }
+    .range-track{
+      position:absolute;
+      left:0;right:0;top:50%;
+      height:3px;
+      border-radius:999px;
+      background:linear-gradient(90deg,#3ac3ff,#ffb35c);
+      transform:translateY(-50%);
+      opacity:.9;
+    }
+    .range-fill{
+      position:absolute;
+      left:0;top:50%;
+      height:3px;
+      border-radius:999px;
+      background:linear-gradient(90deg,#3ac3ff,#ffb35c);
+      transform:translateY(-50%) scaleX(0.5);
+      transform-origin:left center;
+      pointer-events:none;
+      transition:transform .18s ease-out;
+    }
+    .hero-range{
+      position:relative;
+      width:100%;
+      -webkit-appearance:none;
+      appearance:none;
+      background:transparent;
+      outline:none;
+      height:30px;
+    }
+    .hero-range::-webkit-slider-thumb{
+      -webkit-appearance:none;
+      width:16px;height:16px;
+      border-radius:999px;
+      border:2px solid rgba(10,10,15,0.85);
+      background:#ffd280;
+      box-shadow:0 0 0 4px rgba(255,184,89,0.4);
+      cursor:pointer;
+      transition:box-shadow .18s ease-out, transform .18s ease-out;
+    }
+    .hero-range:active::-webkit-slider-thumb{
+      box-shadow:0 0 0 6px rgba(255,184,89,0.6);
+      transform:scale(1.08);
+    }
+
+    .stacks{
+      margin-top:12px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    details.stack{
+      border-radius:var(--radius-md);
+      background:var(--pill-bg);
+      border:1px solid var(--pill-border);
+      box-shadow:0 12px 32px rgba(0,0,0,0.7);
+      overflow:hidden;
+      transition:border-color .22s ease-out, box-shadow .22s ease-out, background .22s ease-out, transform .22s ease-out;
+    }
+    details.stack[open]{
+      border-color:rgba(255,185,104,0.7);
+      background:linear-gradient(135deg, rgba(17,19,40,0.98), rgba(40,19,9,0.95));
+      box-shadow:0 18px 40px rgba(0,0,0,0.9);
+      transform:translateY(-1px);
+    }
+    summary.stack-summary{
+      list-style:none;
+      cursor:pointer;
+      padding:12px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      position:relative;
+    }
+    summary.stack-summary::-webkit-details-marker{display:none;}
+
+    .stack-main{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+    .stack-title{
+      font-size:15px;
+      font-weight:500;
+    }
+    .stack-sub{
+      font-size:11px;
+      color:var(--text-muted);
+    }
+    .stack-meta{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-size:12px;
+      color:var(--text-soft);
+    }
+    .stack-pill{
+      padding:4px 9px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.18);
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      color:var(--text-muted);
+    }
+    .stack-icon{
+      width:26px;height:26px;border-radius:999px;
+      display:grid;place-items:center;
+      font-size:15px;
+      color:#1b0e03;
+      background:radial-gradient(circle, rgba(255,140,80,0.9), rgba(80,34,6,0.1));
+      box-shadow:0 0 18px rgba(255,140,80,0.7);
+      animation:soft-orb-glow 3s ease-in-out infinite;
+    }
+    .stack-icon.secondary{
+      background:radial-gradient(circle, rgba(143,123,255,0.9), rgba(14,21,60,0.4));
+      color:#050816;
+    }
+    .stack-body{
+      border-top:1px solid rgba(255,255,255,0.08);
+      background:radial-gradient(circle at 0% 0%, rgba(87,143,255,0.06), transparent 60%),
+                 radial-gradient(circle at 120% 150%, rgba(255,140,80,0.18), transparent 60%),
+                 var(--pill-soft);
+      padding:8px 10px 10px;
+    }
+
+    .panel-list{
+      list-style:none;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .panel-row{
+      border-radius:14px;
+      padding:9px 10px;
+      background:rgba(8,11,25,0.96);
+      border:1px solid rgba(255,255,255,0.06);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      font-size:13px;
+      color:var(--text-soft);
+      transition:background .16s ease-out, transform .12s ease-out, box-shadow .18s ease-out, border-color .18s ease-out;
+    }
+    .panel-row.touchable{
+      cursor:pointer;
+    }
+    .panel-row:hover{
+      background:rgba(10,14,32,0.98);
+      border-color:rgba(255,185,104,0.5);
+      box-shadow:0 10px 26px rgba(0,0,0,0.7);
+    }
+    .panel-row:active{
+      transform:scale(0.98) translateY(1px);
+      box-shadow:0 4px 12px rgba(0,0,0,0.8);
+    }
+    .panel-row-main{
+      display:flex;
+      flex-direction:column;
+      gap:1px;
+    }
+    .panel-row-main strong{
+      font-size:14px;
+      color:var(--text-main);
+    }
+    .panel-row-main span.meta{
+      font-size:11px;
+      color:var(--text-muted);
+    }
+    .panel-pill{
+      padding:3px 8px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.16);
+      font-size:11px;
+      color:var(--text-soft);
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+      backdrop-filter:blur(6px);
+    }
+    .panel-pill i{ font-size:12px; }
+
+    .panel-actions{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      align-items:flex-end;
+    }
+    .save-btn{
+      border:none;
+      border-radius:999px;
+      background:rgba(255,184,89,0.14);
+      color:var(--accent-soft);
+      padding:3px 8px;
+      font-size:10px;
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+      cursor:pointer;
+    }
+    .save-btn span.icon{
+      font-size:12px;
+    }
+
+    .pill-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:6px;
+      margin-top:4px;
+    }
+    .pill-grid .pill{
+      border-radius:12px;
+      padding:7px 8px;
+      background:rgba(8,11,25,0.9);
+      border:1px solid rgba(255,255,255,0.09);
+      font-size:12px;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      color:var(--text-soft);
+    }
+
+    .pill-main{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .pill-main .pill-title{
+      font-size:12px;
+      color:var(--text-main);
+    }
+    .pill-main .pill-desc{
+      font-size:10px;
+      color:var(--text-muted);
+    }
+
+    .pill-main input,
+    .pill-main textarea{
+      width:100%;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.16);
+      background:rgba(5,8,20,0.96);
+      padding:6px 8px;
+      font-size:11px;
+      color:var(--text-soft);
+      resize:vertical;
+      outline:none;
+    }
+    .pill-main textarea{
+      min-height:42px;
+      max-height:72px;
+    }
+
+    .pill-actions{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      align-items:flex-end;
+    }
+    .pill-actions .local-save-btn{
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.26);
+      background:linear-gradient(135deg,#3ac3ff,#ffb35c);
+      color:#050816;
+      font-size:11px;
+      padding:5px 10px;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+    }
+
+    .pill-badge{
+      font-size:10px;
+      opacity:.7;
+    }
+    .pill-del{
+      border:none;
+      background:rgba(40,6,6,0.9);
+      color:var(--danger);
+      border-radius:999px;
+      width:18px;height:18px;
+      font-size:12px;
+      display:grid;place-items:center;
+      cursor:pointer;
+    }
+
+    .stack-note{
+      margin-top:8px;
+      font-size:11px;
+      color:var(--text-muted);
+    }
+
+    .panel-row.local-card{
+      background:linear-gradient(135deg, rgba(10,14,32,0.96), rgba(40,19,9,0.96));
+      border-color:rgba(255,185,104,0.7);
+      box-shadow:0 18px 40px rgba(0,0,0,0.85);
+    }
+
+    .app-links-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:6px;
+      margin-bottom:8px;
+    }
+    .app-link{
+      border-radius:12px;
+      padding:7px 8px;
+      background:rgba(8,11,25,0.92);
+      border:1px solid rgba(255,255,255,0.10);
+      font-size:12px;
+      display:flex;
+      align-items:flex-start;
+      gap:8px;
+      cursor:pointer;
+      transition:background .16s ease-out,border-color .18s ease-out,box-shadow .18s ease-out,transform .12s ease-out;
+    }
+    .app-link-icon{
+      width:20px;
+      height:20px;
+      border-radius:999px;
+      display:grid;
+      place-items:center;
+      font-size:13px;
+      background:radial-gradient(circle,#ffd48a,#ff8f5b);
+      box-shadow:0 0 14px rgba(255,176,88,0.7);
+      flex-shrink:0;
+    }
+    .app-link-main{
+      display:flex;
+      flex-direction:column;
+      gap:1px;
+    }
+    .app-link-main strong{
+      font-size:12px;
+      color:var(--text-main);
+    }
+    .app-link-main span{
+      font-size:10px;
+      color:var(--text-muted);
+    }
+    .app-link:hover{
+      background:rgba(12,16,34,0.98);
+      border-color:rgba(255,185,104,0.7);
+      box-shadow:0 10px 26px rgba(0,0,0,0.7);
+    }
+    .app-link:active{
+      transform:scale(0.97) translateY(1px);
+      box-shadow:0 4px 12px rgba(0,0,0,0.8);
+    }
+    .app-link.active{
+      border-color:rgba(255,200,120,0.95);
+      background:linear-gradient(135deg,rgba(255,183,104,0.28),rgba(8,10,22,0.98));
+      box-shadow:0 14px 32px rgba(0,0,0,0.85);
+    }
+
+    .iframe-controls{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      margin-bottom:6px;
+      font-size:11px;
+      color:var(--text-soft);
+      flex-wrap:wrap;
+    }
+    .iframe-controls-left{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      min-width:0;
+      flex:1 1 auto;
+    }
+    .iframe-controls-left strong{
+      font-size:12px;
+      color:var(--text-main);
+      white-space:nowrap;
+      text-overflow:ellipsis;
+      overflow:hidden;
+    }
+    .iframe-controls-right{
+      display:flex;
+      align-items:center;
+      gap:4px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .iframe-size-btn{
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.18);
+      background:rgba(7,10,22,0.96);
+      color:var(--text-soft);
+      font-size:10px;
+      padding:3px 7px;
+      cursor:pointer;
+    }
+    .iframe-size-btn.active{
+      border-color:rgba(255,185,104,0.9);
+      background:linear-gradient(135deg,rgba(255,183,104,0.35),rgba(7,8,18,0.98));
+      color:#1b0e03;
+    }
+
+    .iframe-save-launcher-btn{
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.22);
+      background:rgba(7,10,22,0.96);
+      color:var(--text-soft);
+      font-size:10px;
+      padding:3px 8px;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+      opacity:.5;
+      transition:background .16s ease-out,border-color .18s ease-out,box-shadow .18s ease-out,opacity .16s.ease-out,transform .12s ease-out;
+    }
+    .iframe-save-launcher-btn span.icon{
+      font-size:12px;
+    }
+    .iframe-save-launcher-btn.on{
+      opacity:1;
+      background:linear-gradient(135deg,rgba(255,183,104,0.35),rgba(7,8,18,0.98));
+      border-color:rgba(255,185,104,0.9);
+      box-shadow:0 0 12px rgba(255,176,88,0.8);
+    }
+    .iframe-save-launcher-btn:disabled{
+      cursor:default;
+    }
+    .iframe-save-launcher-btn:active{
+      transform:scale(0.97) translateY(1px);
+    }
+
+    .iframe-shell{
+      border-radius:18px;
+      background:radial-gradient(circle at top,#23284b,#050816);
+      border:1px solid rgba(155,176,255,0.45);
+      box-shadow:0 16px 40px rgba(0,0,0,0.9);
+      overflow:hidden;
+      position:relative;
+      height:260px;
+      transition:height .22s ease-out, box-shadow .22s ease-out, border-color .22s.ease-out;
+    }
+    .iframe-shell::before{
+      content:"";
+      position:absolute;
+      inset:-20%;
+      background:
+        radial-gradient(circle at 0% 0%,rgba(90,140,255,0.25),transparent 60%),
+        radial-gradient(circle at 100% 110%,rgba(255,160,100,0.32),transparent 60%);
+      opacity:0.4;
+      mix-blend-mode:screen;
+      pointer-events:none;
+    }
+    .iframe-shell.empty{
+      border-style:dashed;
+      border-color:rgba(255,255,255,0.24);
+      box-shadow:0 8px 26px rgba(0,0,0,0.75);
+    }
+    .iframe-placeholder{
+      position:absolute;
+      inset:0;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      font-size:12px;
+      color:var(--text-soft);
+      text-align:center;
+      padding:12px;
+      z-index:2;
+      pointer-events:none;
+    }
+    .iframe-placeholder span.icon{
+      width:34px;
+      height:34px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.26);
+      display:grid;
+      place-items:center;
+      font-size:17px;
+      background:radial-gradient(circle,#ffd48a,#ff8f5b);
+      box-shadow:0 0 22px rgba(255,176,88,0.8);
+    }
+
+    iframe#appFrame{
+      width:100%;
+      height:100%;
+      border:0;
+      border-radius:18px;
+      position:relative;
+      z-index:1;
+      background:#050816;
+    }
+
+    .app-footer{
+      margin-top:12px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      font-size:12px;
+      color:var(--text-muted);
+    }
+    .footer-row{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .theme-card{
+      flex:1 1 48%;
+      border-radius:18px;
+      background:rgba(10,13,30,0.96);
+      border:1px solid rgba(255,255,255,0.12);
+      padding:8px 9px;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .theme-title{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      color:var(--text-muted);
+    }
+    .theme-chips{
+      display:flex;
+      gap:6px;
+    }
+    .theme-chip{
+      flex:1;
+      padding:6px 8px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.16);
+      background:radial-gradient(circle at top, rgba(255,255,255,0.09), rgba(6,9,21,0.96));
+      font-size:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      cursor:pointer;
+      transition:background .16s ease-out, border-color .18s ease-out, box-shadow .22s ease-out, transform .16s ease-out;
+    }
+    .theme-chip span.dot{
+      width:9px;height:9px;border-radius:999px;
+      background:linear-gradient(135deg,#3ac3ff,#8c7bff);
+    }
+    .theme-chip[data-theme="madeira"] span.dot{
+      background:linear-gradient(135deg,#f3b05e,#8c5a2a);
+    }
+    .theme-chip.active{
+      border-color:rgba(255,187,104,0.9);
+      box-shadow:0 0 18px rgba(255,176,88,0.8);
+      background:linear-gradient(135deg,rgba(255,169,86,0.35),rgba(13,10,4,0.98));
+      transform:translateY(-1px);
+    }
+    .theme-chip:active{
+      transform:scale(0.97) translateY(1px);
+    }
+
+    .hash-card{
+      flex:1 1 48%;
+      border-radius:18px;
+      background:rgba(8,11,25,0.96);
+      border:1px solid rgba(255,255,255,0.12);
+      padding:8px 9px;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .hash-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:6px;
+    }
+    .hash-title{
+      font-size:11px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:var(--text-muted);
+    }
+    .hash-tag-pill{
+      padding:3px 8px;
+      border-radius:999px;
+      border:1px dashed rgba(255,255,255,0.22);
+      font-size:11px;
+      color:var(--text-soft);
+    }
+    .hash-main{
+      border-radius:12px;
+      padding:7px 8px;
+      background:rgba(7,10,22,0.98);
+      border:1px dashed rgba(255,255,255,0.22);
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+      font-size:11px;
+      color:var(--text-soft);
+    }
+
+    .foot-note{
+      font-size:11px;
+      color:var(--text-muted);
+      text-align:center;
+      margin-top:4px;
+    }
+    .log{
+      margin-top:4px;
+      font-size:11px;
+      color:var(--text-muted);
+      line-height:1.4;
+      text-align:center;
+    }
+    .log strong{color:var(--accent-warm);}
+
+    /* DEV · card quase invisível para receitas JSON do ChatKIA */
+    .dev-ghost{
+      opacity:0.35;
+      background:rgba(4,6,14,0.96);
+      border-style:dashed;
+      border-color:rgba(255,255,255,0.08);
+    }
+    .dev-ghost:hover{
+      opacity:0.75;
+      border-color:rgba(255,185,104,0.6);
+    }
+    .dev-ghost textarea{
+      width:100%;
+      margin-top:6px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.12);
+      background:rgba(3,5,15,0.96);
+      padding:6px 8px;
+      font-size:10px;
+      color:var(--text-soft);
+      min-height:52px;
+      max-height:80px;
+      resize:vertical;
+      outline:none;
+    }
+    .save-btn.dev{
+      opacity:.7;
+      background:rgba(7,10,22,0.96);
+      box-shadow:none;
+    }
+    .save-btn.dev:hover{
+      opacity:1;
+    }
+  </style>
+</head>
+<body data-theme="madeira">
+  <div class="app" id="app">
+    <header class="app-header">
+      <div class="brand-pill">Dual · Infodose</div>
+      <button class="mode-pill" type="button" id="modeBtn">
+        <span class="dot"></span>
+        <span>Modo 3·6·9 ativo</span>
+      </button>
+    </header>
+
+    <main class="app-main">
+      <section class="hero-card">
+        <div class="hero-top">
+          <span class="hero-time" id="timeLeft">--:--</span>
+          <button class="hero-voice" type="button" id="heroVoice" title="Ouvir resumo do dia">🔊</button>
+        </div>
+        <div>
+          <div class="hero-title" id="heroGreeting">Bom dia, Dual</div>
+          <div class="hero-subtitle" id="heroSubtitle">Sua dose de hoje já está organizada.</div>
+        </div>
+        <div class="hero-slider">
+          <div class="hero-slider-row">
+            <span class="hero-time">00h</span>
+            <span class="label-mood" id="moodLabel"><i></i><span>Manhã focada</span></span>
+            <span class="hero-time">23h</span>
+          </div>
+          <div class="range-wrap">
+            <div class="range-track"></div>
+            <div class="range-fill" id="rangeFill"></div>
+            <input class="hero-range" id="timeRange" type="range" min="0" max="23" step="1" value="9" />
+          </div>
+        </div>
+      </section>
+
+      <section class="stacks">
+        <details class="stack" open>
+          <summary class="stack-summary">
+            <div class="stack-main">
+              <div class="stack-title">Ativações de hoje</div>
+              <div class="stack-sub">Escolha em 3 cliques onde entrar agora.</div>
+            </div>
+            <div class="stack-meta">
+              <span class="stack-pill">Agora · 25min</span>
+              <div class="stack-icon">⚡</div>
+            </div>
+          </summary>
+          <div class="stack-body">
+            <ul class="panel-list">
+              <li class="panel-row touchable" data-kind="ativacao" data-title="Agora · 25min" data-desc="Micro sessão para destravar o dia.">
+                <div class="panel-row-main">
+                  <strong>Agora · 25min</strong>
+                  <span class="meta">Micro sessão para destravar o dia.</span>
+                </div>
+                <div class="panel-actions">
+                  <span class="panel-pill"><i>▶</i>Começar</span>
+                  <button class="save-btn" type="button">
+                    <span class="icon">⊕</span><span>Salvar em stacks</span>
+                  </button>
+                </div>
+              </li>
+              <li class="panel-row touchable" data-kind="ativacao" data-title="Janela de foco" data-desc="Foco silencioso com trilha Infodose.">
+                <div class="panel-row-main">
+                  <strong>Janela de foco</strong>
+                  <span class="meta">Foco silencioso com trilha Infodose.</span>
+                </div>
+                <div class="panel-actions">
+                  <span class="panel-pill"><i>🎧</i>Entrar</span>
+                  <button class="save-btn" type="button">
+                    <span class="icon">⊕</span><span>Salvar em stacks</span>
+                  </button>
+                </div>
+              </li>
+              <li class="panel-row touchable" data-kind="ativacao" data-title="Recarregar" data-desc="Respira, alonga, volta com 1% de intenção.">
+                <div class="panel-row-main">
+                  <strong>Recarregar</strong>
+                  <span class="meta">Respira, alonga, volta com 1% de intenção.</span>
+                </div>
+                <div class="panel-actions">
+                  <span class="panel-pill"><i>⟳</i>5min</span>
+                  <button class="save-btn" type="button">
+                    <span class="icon">⊕</span><span>Salvar em stacks</span>
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="stack">
+          <summary class="stack-summary">
+            <div class="stack-main">
+              <div class="stack-title">Organizar meu dia</div>
+              <div class="stack-sub">Manhã, tarde, noite — sem nó na cabeça.</div>
+            </div>
+            <div class="stack-meta">
+              <span class="stack-pill">Blocos 3·6·9</span>
+              <div class="stack-icon secondary">›</div>
+            </div>
+          </summary>
+          <div class="stack-body">
+            <ul class="panel-list">
+              <li class="panel-row touchable" data-kind="dia" data-title="Manhã" data-desc="Escolha 1 coisa pra resolver antes do almoço.">
+                <div class="panel-row-main">
+                  <strong>Manhã</strong>
+                  <span class="meta">Escolha 1 coisa pra resolver antes do almoço.</span>
+                </div>
+                <div class="panel-actions">
+                  <span class="panel-pill"><i>☀️</i>Definir</span>
+                  <button class="save-btn" type="button">
+                    <span class="icon">⊕</span><span>Salvar em stacks</span>
+                  </button>
+                </div>
+              </li>
+              <li class="panel-row touchable" data-kind="dia" data-title="Tarde" data-desc="Bloco de entrega — estudar, trabalhar, criar.">
+                <div class="panel-row-main">
+                  <strong>Tarde</strong>
+                  <span class="meta">Bloco de entrega — estudar, trabalhar, criar.</span>
+                </div>
+                <div class="panel-actions">
+                  <span class="panel-pill"><i>🌤</i>Planejar</span>
+                  <button class="save-btn" type="button">
+                    <span class="icon">⊕</span><span>Salvar em stacks</span>
+                  </button>
+                </div>
+              </li>
+              <li class="panel-row touchable" data-kind="dia" data-title="Noite" data-desc="Fechamento leve + 1 micro vitória pessoal.">
+                <div class="panel-row-main">
+                  <strong>Noite</strong>
+                  <span class="meta">Fechamento leve + 1 micro vitória pessoal.</span>
+                </div>
+                <div class="panel-actions">
+                  <span class="panel-pill"><i>🌙</i>Cuidar</span>
+                  <button class="save-btn" type="button">
+                    <span class="icon">⊕</span><span>Salvar em stacks</span>
+                  </button>
+                </div>
+              </li>
+            </ul>
+
+            <div class="panel-row touchable" data-kind="dia" data-title="Resumo do dia" data-desc="Ver tudo como um painel só.">
+              <div class="panel-row-main">
+                <strong>Resumo do dia</strong>
+                <span class="meta">Ver tudo como um painel só.</span>
+              </div>
+              <div class="panel-actions">
+                <span class="panel-pill"><i>📋</i>Ver painel</span>
+                <button class="save-btn" type="button">
+                  <span class="icon">⊕</span><span>Salvar em stacks</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="stack-note">
+              Escolha só um foco por período. O resto vira memória, não cobrança.
+            </div>
+          </div>
+        </details>
+
+        <details class="stack">
+          <summary class="stack-summary">
+            <div class="stack-main">
+              <div class="stack-title">Arquétipo do dia</div>
+              <div class="stack-sub">Resumo, áudio e Aplicar 1% sem esforço.</div>
+            </div>
+            <div class="stack-meta">
+              <span class="stack-pill">Base Madeira · Criador</span>
+              <div class="stack-icon secondary">◎</div>
+            </div>
+          </summary>
+          <div class="stack-body">
+            <ul class="panel-list">
+              <li class="panel-row touchable" data-kind="arquetipo" data-title="Resumo ★" data-desc="Arquétipo do dia + palavra-chave.">
+                <div class="panel-row-main">
+                  <strong>Resumo ★</strong>
+                  <span class="meta">Arquétipo do dia + palavra-chave.</span>
+                </div>
+                <div class="panel-actions">
+                  <span class="panel-pill"><i>✨</i>Ver agora</span>
+                  <button class="save-btn" type="button">
+                    <span class="icon">⊕</span><span>Salvar em stacks</span>
+                  </button>
+                </div>
+              </li>
+              <li class="panel-row touchable" data-kind="arquetipo" data-title="Ouvir ⏱" data-desc="Áudio curto explicando como usar hoje.">
+                <div class="panel-row-main">
+                  <strong>Ouvir ⏱</strong>
+                  <span class="meta">Áudio curto explicando como usar hoje.</span>
+                </div>
+                <div class="panel-actions">
+                  <span class="panel-pill"><i>◎</i>Tocar</span>
+                  <button class="save-btn" type="button">
+                    <span class="icon">⊕</span><span>Salvar em stacks</span>
+                  </button>
+                </div>
+              </li>
+              <li class="panel-row touchable" data-kind="arquetipo" data-title="Aplicar 1%" data-desc="Uma micro ação prática no mundo real.">
+                <div class="panel-row-main">
+                  <strong>Aplicar 1%</strong>
+                  <span class="meta">Uma micro ação prática no mundo real.</span>
+                </div>
+                <div class="panel-actions">
+                  <span class="panel-pill"><i>⚡</i>Gerar 1%</span>
+                  <button class="save-btn" type="button">
+                    <span class="icon">⊕</span><span>Salvar em stacks</span>
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="stack" open>
+          <summary class="stack-summary">
+            <div class="stack-main">
+              <div class="stack-title">Apps & Infodocs</div>
+              <div class="stack-sub">Abrir Info-Doc, Dual Editor, Nos.S°lar e UnoUno aqui dentro.</div>
+            </div>
+            <div class="stack-meta">
+              <span class="stack-pill">Viewer interno</span>
+              <div class="stack-icon secondary">⊙</div>
+            </div>
+          </summary>
+          <div class="stack-body">
+            <div class="app-links-grid">
+              <button class="app-link" type="button"
+                data-url="https://kodux78k.github.io/info-Doc/index.html"
+                data-name="Info-Doc">
+                <div class="app-link-icon">📚</div>
+                <div class="app-link-main">
+                  <strong>Info-Doc</strong>
+                  <span>Livro Vivo / leitor Infodose dentro do Hub.</span>
+                </div>
+              </button>
+
+              <button class="app-link" type="button"
+                data-url="https://kodux78k.github.io/Dual-Editor/"
+                data-name="Dual Editor • Kodux">
+                <div class="app-link-icon">✏️</div>
+                <div class="app-link-main">
+                  <strong>Dual Editor • Kodux</strong>
+                  <span>Editor vivo para HTML, prompts e código.</span>
+                </div>
+              </button>
+
+              <button class="app-link" type="button"
+                data-url="https://kodux78k.github.io/NosSolar-dualInfodose/"
+                data-name="Nos.S°lar – dual.infodose">
+                <div class="app-link-icon">☀️</div>
+                <div class="app-link-main">
+                  <strong>Nos.S°lar – dual.infodose</strong>
+                  <span>Painel solar simbólico da rede Nos.S°lar.</span>
+                </div>
+              </button>
+
+              <button class="app-link" type="button"
+                data-url="https://kodux78k.github.io/Unouno-/index.html"
+                data-name="UnoUno • Oráculo Dual">
+                <div class="app-link-icon">🌀</div>
+                <div class="app-link-main">
+                  <strong>UnoUno • Oráculo Dual</strong>
+                  <span>Oráculo estilo Hub Uno embutido na home.</span>
+                </div>
+              </button>
+            </div>
+
+            <div class="iframe-controls">
+              <div class="iframe-controls-left">
+                <strong id="viewerTitle">Nada carregado ainda</strong>
+                <span id="viewerHint">Escolha um app acima para abrir aqui dentro.</span>
+              </div>
+              <div class="iframe-controls-right">
+                <button class="iframe-save-launcher-btn" type="button" id="saveLauncherBtn" disabled>
+                  <span class="icon">⊕</span><span>Salvar launcher</span>
+                </button>
+                <span>Altura</span>
+                <button class="iframe-size-btn active" type="button" data-h="260">Baixa</button>
+                <button class="iframe-size-btn" type="button" data-h="360">Média</button>
+                <button class="iframe-size-btn" type="button" data-h="460">Alta</button>
+              </div>
+            </div>
+
+            <div class="iframe-shell empty" id="iframeShell">
+              <div class="iframe-placeholder" id="iframePlaceholder">
+                <span class="icon">⊙</span>
+                <div>Viewer pronto.</div>
+                <div>Toque em um app nos cards acima para carregar aqui.</div>
+              </div>
+              <iframe id="appFrame" title="Viewer externo" loading="lazy" referrerpolicy="no-referrer"></iframe>
+            </div>
+
+            <div class="stack-note">
+              O conteúdo abre aqui dentro. Nada aparece como pop-up, tudo fica contido na mesma tela.
+            </div>
+          </div>
+        </details>
+
+        <details class="stack" open>
+          <summary class="stack-summary">
+            <div class="stack-main">
+              <div class="stack-title">Meus cards locais</div>
+              <div class="stack-sub">Tudo que você “descolar” vira telha salva aqui.</div>
+            </div>
+            <div class="stack-meta">
+              <span class="stack-pill">Local · 3·6·9</span>
+              <div class="stack-icon secondary">📂</div>
+            </div>
+          </summary>
+          <div class="stack-body">
+            <div class="panel-row">
+              <div class="panel-row-main">
+                <strong>Salvar algo agora</strong>
+                <span class="meta">Se quiser criar um card do zero, preenche aqui embaixo.</span>
+              </div>
+            </div>
+
+            <div class="pill-grid">
+              <div class="pill">
+                <div class="pill-main">
+                  <div class="pill-title">Título do card</div>
+                  <input id="localTitle" type="text" placeholder="Ex: Foco manhã · 25min" />
+                </div>
+              </div>
+              <div class="pill">
+                <div class="pill-main">
+                  <div class="pill-title">Detalhe / lembrete</div>
+                  <textarea id="localDesc" placeholder="Ex: Começar pelo que está mais travado, sem mexer no resto."></textarea>
+                </div>
+                <div class="pill-actions">
+                  <button class="local-save-btn" type="button" id="localSaveBtn">
+                    <span>Salvar em stacks</span>
+                  </button>
+                  <span class="pill-badge">Vira telha cheia abaixo</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- DEV · Card quase invisível de receita JSON do ChatKIA -->
+            <div class="panel-row dev-ghost" id="devRecipeCard">
+              <div class="panel-row-main">
+                <strong style="font-size:11px; opacity:.6;">Dev · Receita de stacks</strong>
+                <span class="meta" style="font-size:10px;">
+                  Cola aqui o JSON que o ChatKIA devolver e aplica para virar cards locais.
+                </span>
+                <textarea id="devRecipeInput" placeholder='Ex: {"cards":[{"stack":"meus-cards-locais","title":"...","desc":"...","url":null}]}'></textarea>
+              </div>
+              <div class="panel-actions">
+                <button class="save-btn dev" type="button" id="devRecipeApplyBtn">
+                  <span class="icon">⚙</span><span>Aplicar receita</span>
+                </button>
+                <button class="save-btn dev" type="button" id="devRecipeFileBtn">
+                  <span class="icon">📄</span><span>Txt/JSON</span>
+                </button>
+                <input type="file" id="devRecipeFile" accept=".json,.txt" hidden />
+              </div>
+            </div>
+
+            <div class="stack-note" id="localEmpty">
+              Ainda não tem cards locais. Toque em “Salvar em stacks” em qualquer bloco ou use o formulário acima.
+            </div>
+
+            <ul class="panel-list" id="localCardsList"></ul>
+          </div>
+        </details>
+      </section>
+
+      <footer class="app-footer">
+        <div class="footer-row">
+          <div class="theme-card">
+            <div class="theme-title">Tema</div>
+            <div class="theme-chips">
+              <button class="theme-chip" type="button" data-theme="nebula">
+                <span class="dot"></span>
+                <span>Nebula</span>
+              </button>
+              <button class="theme-chip active" type="button" data-theme="madeira">
+                <span class="dot"></span>
+                <span>Madeira</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="hash-card">
+            <div class="hash-header">
+              <div class="hash-title">Hash do dia</div>
+              <div class="hash-tag-pill" id="hashTag">#dual-3·6·9</div>
+            </div>
+            <div class="hash-main" id="hashMain">
+              3·6·9 · Hub1 Solar+IA · Base Madeira · snapshot local
+            </div>
+          </div>
+        </div>
+
+        <div class="foot-note">
+          Hub1 · protótipo local. Nada sai do seu dispositivo.
+        </div>
+        <div class="log" id="logLine">
+          Toque em qualquer bloco para registrar um <strong>1%</strong> de avanço.
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- SCRIPT PRINCIPAL DO HUB1 -->
+  <script>
+    (function(){
+      const timeRange   = document.getElementById('timeRange');
+      const rangeFill   = document.getElementById('rangeFill');
+      const moodLabelEl = document.getElementById('moodLabel').querySelector('span');
+      const timeLeftEl  = document.getElementById('timeLeft');
+      const heroGreeting = document.getElementById('heroGreeting');
+      const heroSubtitle = document.getElementById('heroSubtitle');
+      const logLine     = document.getElementById('logLine');
+      const modeBtn     = document.getElementById('modeBtn');
+      const heroVoice   = document.getElementById('heroVoice');
+
+      const STORAGE_KEY = 'hub1_local_cards_v1';
+
+      const localTitle = document.getElementById('localTitle');
+      const localDesc  = document.getElementById('localDesc');
+      const localSaveBtn = document.getElementById('localSaveBtn');
+      const localEmpty = document.getElementById('localEmpty');
+      const localCardsList = document.getElementById('localCardsList');
+
+      const themeChips = document.querySelectorAll('.theme-chip');
+
+      const appLinks = document.querySelectorAll('.app-link');
+      const iframeShell = document.getElementById('iframeShell');
+      const iframeEl = document.getElementById('appFrame');
+      const iframePlaceholder = document.getElementById('iframePlaceholder');
+      const viewerTitle = document.getElementById('viewerTitle');
+      const viewerHint = document.getElementById('viewerHint');
+      const iframeSizeBtns = document.querySelectorAll('.iframe-size-btn');
+      const saveLauncherBtn = document.getElementById('saveLauncherBtn');
+
+      let currentApp = null;
+      let currentAppUrl = null;
+
+      function getMoodByHour(h){
+        if(h >= 0 && h < 5)  return 'madrugada';
+        if(h < 12)          return 'manha';
+        if(h < 18)          return 'tarde';
+        return 'noite';
+      }
+      function getMoodText(mood){
+        switch(mood){
+          case 'madrugada': return 'Madrugada calma';
+          case 'manha':     return 'Manhã focada';
+          case 'tarde':     return 'Tarde produtiva';
+          case 'noite':     return 'Noite suave';
+          default:          return 'Pulso do dia';
+        }
+      }
+      function updateByHour(h){
+        const mood = getMoodByHour(h);
+        document.body.setAttribute('data-mood', mood);
+        moodLabelEl.textContent = getMoodText(mood);
+        const frac = h/23;
+        rangeFill.style.transform = 'translateY(-50%) scaleX(' + (frac || 0.01) + ')';
+
+        if(mood === 'madrugada'){
+          heroGreeting.textContent = 'Você ainda acordado?';
+          heroSubtitle.textContent = 'Vamos transformar essa madrugada em 1% consciente.';
+        }else if(mood === 'manha'){
+          heroGreeting.textContent = 'Bom dia, Dual';
+          heroSubtitle.textContent = 'Começa leve, mas com intenção.';
+        }else if(mood === 'tarde'){
+          heroGreeting.textContent = 'Boa tarde';
+          heroSubtitle.textContent = 'Tarde é hora de entrega, mas sem se cobrar demais.';
+        }else{
+          heroGreeting.textContent = 'Boa noite';
+          heroSubtitle.textContent = 'Hora de fechar o dia com calma e uma micro vitória.';
+        }
+      }
+      function tickClock(){
+        const now = new Date();
+        const h = now.getHours();
+        const m = now.getMinutes();
+        timeLeftEl.textContent = String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0');
+        if(!timeRange.dataset.touched){
+          timeRange.value = h;
+          updateByHour(h);
+        }
+      }
+      timeRange.addEventListener('input', () => {
+        timeRange.dataset.touched = '1';
+        updateByHour(parseInt(timeRange.value,10) || 0);
+      });
+
+      function setLog(msg){
+        logLine.innerHTML = msg;
+      }
+
+      function loadCards(){
+        try{
+          const raw = localStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : [];
+        }catch(e){
+          return [];
+        }
+      }
+      function saveCards(cards){
+        try{
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(cards));
+        }catch(e){}
+      }
+      function addCard(from){
+        const cards = loadCards();
+        cards.unshift({
+          id: Date.now(),
+          title: from.title || 'Card sem título',
+          desc: from.desc || '',
+          url: from.url || ''
+        });
+        saveCards(cards);
+      }
+      function renderCards(){
+        const cards = loadCards();
+        localCardsList.innerHTML = '';
+        if(!cards.length){
+          localEmpty.style.display = 'block';
+          return;
+        }
+        localEmpty.style.display = 'none';
+        cards.forEach(card => {
+          const li = document.createElement('li');
+          li.className = 'panel-row local-card';
+          if(card.url){ li.classList.add('touchable'); }
+          li.dataset.id = card.id;
+          li.dataset.url = card.url || '';
+
+          const main = document.createElement('div');
+          main.className = 'panel-row-main';
+          const title = document.createElement('strong');
+          title.textContent = card.title;
+          const meta = document.createElement('span');
+          meta.className = 'meta';
+          meta.textContent = card.desc || (card.url ? card.url : '');
+          main.appendChild(title);
+          main.appendChild(meta);
+
+          const right = document.createElement('div');
+          right.className = 'panel-actions';
+
+          const badge = document.createElement('span');
+          badge.className = 'panel-pill';
+          badge.innerHTML = '<i>☰</i>' + (card.url ? 'Launcher local' : 'Telha local');
+
+          const del = document.createElement('button');
+          del.type = 'button';
+          del.className = 'pill-del';
+          del.textContent = '×';
+          del.title = 'Remover card';
+
+          del.addEventListener('click', (ev) => {
+            ev.stopPropagation();
+            const cardsNow = loadCards();
+            const filtered = cardsNow.filter(c => c.id !== card.id);
+            saveCards(filtered);
+            renderCards();
+            setLog('Card removido. <strong>1%</strong> de espaço mental liberado.');
+          });
+
+          right.appendChild(badge);
+          right.appendChild(del);
+
+          li.appendChild(main);
+          li.appendChild(right);
+
+          if(card.url){
+            li.addEventListener('click', () => {
+              openInViewer(card.title, card.url);
+              setLog('Abrindo launcher <strong>' + card.title + '</strong> no viewer.');
+            });
+          }
+
+          localCardsList.appendChild(li);
+        });
+      }
+
+      // DEV · aplicar receita JSON (ChatKIA) -> cards locais
+      function applyStackRecipe(jsonStr){
+        let recipe;
+        try{
+          recipe = JSON.parse(jsonStr);
+        }catch(e){
+          alert('JSON inválido. Confere se não tem vírgula sobrando ou comentário.');
+          return;
+        }
+        if(!recipe || !Array.isArray(recipe.cards) || !recipe.cards.length){
+          alert('Nenhum card encontrado em recipe.cards.');
+          return;
+        }
+        let count = 0;
+        recipe.cards.forEach(c => {
+          if(c.stack === 'meus-cards-locais'){
+            addCard({
+              title: c.title,
+              desc: c.desc,
+              url: c.url || ''
+            });
+            count++;
+          }
+        });
+        if(count){
+          renderCards();
+          setLog('Receita aplicada: ' + count + ' card(s) gerados a partir do ChatKIA.');
+        }else{
+          alert('Receita aplicada, mas nenhum card com stack = "meus-cards-locais".');
+        }
+      }
+
+      function hookDevRecipeCard(){
+        const card = document.getElementById('devRecipeCard');
+        if(!card) return;
+        const input = document.getElementById('devRecipeInput');
+        const btnApply = document.getElementById('devRecipeApplyBtn');
+        const btnFile  = document.getElementById('devRecipeFileBtn');
+        const fileInp  = document.getElementById('devRecipeFile');
+
+        if(btnApply && input){
+          btnApply.addEventListener('click', () => {
+            if(!input.value.trim()){
+              alert('Cola o JSON da receita primeiro (ou usa o arquivo .txt/.json).');
+              return;
+            }
+            applyStackRecipe(input.value.trim());
+            input.value = '';
+          });
+        }
+
+        if(btnFile && fileInp){
+          btnFile.addEventListener('click', () => fileInp.click());
+          fileInp.addEventListener('change', () => {
+            const file = fileInp.files[0];
+            if(!file) return;
+            const reader = new FileReader();
+            reader.onload = e => {
+              const txt = String(e.target.result || '');
+              input.value = txt.trim();
+            };
+            reader.readAsText(file);
+          });
+        }
+
+        // expor no window pra brincar no console e pro ChatKIA usar
+        window.applyStackRecipe = applyStackRecipe;
+      }
+
+      localSaveBtn.addEventListener('click', () => {
+        const title = (localTitle.value || '').trim();
+        const desc  = (localDesc.value || '').trim();
+        if(!title && !desc){
+          setLog('Escreve pelo menos um título ou uma frase antes de salvar.');
+          return;
+        }
+        addCard({title, desc});
+        localTitle.value = '';
+        localDesc.value = '';
+        setLog('Salvo em stacks como telha local. <strong>1%</strong> fixado na memória.');
+      });
+
+      document.querySelectorAll('.panel-row .save-btn').forEach(btn => {
+        if(btn.classList.contains('dev')) return; // dev card tem sua própria lógica
+        btn.addEventListener('click', (ev) => {
+          ev.stopPropagation();
+          const row = btn.closest('.panel-row');
+          if(!row) return;
+          const title = row.dataset.title || row.querySelector('strong')?.textContent || 'Card';
+          const desc  = row.dataset.desc  || row.querySelector('.meta')?.textContent || '';
+          addCard({title, desc});
+          setLog('Bloco “' + title + '” salvo como card local.');
+        });
+      });
+
+      document.querySelectorAll('.panel-row.touchable').forEach(row => {
+        row.addEventListener('click', () => {
+          const title = row.dataset.title || row.querySelector('strong')?.textContent || 'Bloco';
+          setLog('Você tocou em <strong>' + title + '</strong>. Escolha um 1% e execute fora da tela.');
+        });
+      });
+
+      themeChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          themeChips.forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          const theme = chip.dataset.theme || 'nebula';
+          document.body.setAttribute('data-theme', theme);
+        });
+      });
+
+      modeBtn.addEventListener('click', () => {
+        const on = modeBtn.dataset.on === '1';
+        if(on){
+          modeBtn.dataset.on = '0';
+          modeBtn.querySelector('span:nth-child(2)').textContent = 'Modo manual';
+          setLog('Modo 3·6·9 desativado. Agora você ajusta tudo na mão.');
+        }else{
+          modeBtn.dataset.on = '1';
+          modeBtn.querySelector('span:nth-child(2)').textContent = 'Modo 3·6·9 ativo';
+          setLog('Modo 3·6·9 ligado. Deixa o app organizar o humor do dia pra você.');
+        }
+      });
+
+      heroVoice.addEventListener('click', () => {
+        const txt = heroGreeting.textContent + '. ' + heroSubtitle.textContent;
+        if('speechSynthesis' in window){
+          const utter = new SpeechSynthesisUtterance(txt);
+          utter.lang = 'pt-BR';
+          utter.rate = 1;
+          window.speechSynthesis.cancel();
+          window.speechSynthesis.speak(utter);
+          setLog('Lendo resumo do dia em voz alta.');
+        }else{
+          setLog('Seu navegador não suporta TTS, mas a intenção está registrada.');
+        }
+      });
+
+      function updateLauncherBtnState(){
+        if(!saveLauncherBtn) return;
+        if(currentAppUrl){
+          saveLauncherBtn.disabled = false;
+          saveLauncherBtn.classList.add('on');
+        }else{
+          saveLauncherBtn.disabled = true;
+          saveLauncherBtn.classList.remove('on');
+        }
+      }
+
+      function openInViewer(name, url){
+        if(!url) return;
+        currentApp = name;
+        currentAppUrl = url;
+
+        iframeShell.classList.remove('empty');
+        if(iframePlaceholder) iframePlaceholder.style.display = 'none';
+
+        iframeEl.src = url;
+        viewerTitle.textContent = name;
+        viewerHint.textContent = 'Carregado dentro do Hub. Se algo travar, recarregue a página.';
+
+        updateLauncherBtnState();
+      }
+
+      appLinks.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const url = btn.dataset.url;
+          const name = btn.dataset.name || 'App';
+
+          if(!url){
+            setLog('Falta configurar a URL deste app.');
+            return;
+          }
+
+          appLinks.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          openInViewer(name, url);
+          setLog('Abrindo <strong>' + name + '</strong> embutido no Hub1.');
+        });
+      });
+
+      iframeSizeBtns.forEach(sizeBtn => {
+        sizeBtn.addEventListener('click', () => {
+          iframeSizeBtns.forEach(b => b.classList.remove('active'));
+          sizeBtn.classList.add('active');
+          const h = parseInt(sizeBtn.dataset.h, 10) || 260;
+          iframeShell.style.height = h + 'px';
+          setLog('Altura do painel ajustada para <strong>' + h + 'px</strong>.');
+        });
+      });
+
+      if(saveLauncherBtn){
+        saveLauncherBtn.addEventListener('click', () => {
+          if(!currentAppUrl){
+            setLog('Abra um app acima antes de salvar como launcher.');
+            return;
+          }
+          const title = currentApp || 'Launcher';
+          const desc  = 'Launcher para ' + currentAppUrl;
+          addCard({title, desc, url: currentAppUrl});
+          renderCards();
+          setLog('Launcher de <strong>' + title + '</strong> salvo em Meus cards locais.');
+        });
+      }
+
+      const now = new Date();
+      const h = now.getHours();
+      timeRange.value = h;
+      updateByHour(h);
+      renderCards();
+      tickClock();
+      setInterval(tickClock, 30000);
+      updateLauncherBtnState();
+      hookDevRecipeCard();
+
+      // expor helpers pro ChatKIA e console
+      window.renderCards = renderCards;
+      window.setLog = setLog;
+    })();
+  </script>
+
+  <!-- SCRIPT DEV · NUARM ChatKIA com OpenRouter (com receita automática) -->
+  <script>
+/**
+ * NUARM · ChatKIA · DEV OpenRouter
+ * - Campo de chave OpenRouter (salva em localStorage)
+ * - Chat básico com contexto do app
+ * - Botão "Receita para stacks" que gera JSON e aplica direto
+ * - Não mexe na lógica principal do Hub1
+ */
+(function(){
+  const DEV_MODE = true;
+  const STORAGE_KEY = "OPENROUTER_KEY_DEV";
+  const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
+  const DEFAULT_MODEL = "openai/gpt-4.1-mini"; // troca se quiser outro modelo
+
+  if (!DEV_MODE) return;
+
+  function injectChatStyles(){
+    if (document.getElementById("chatkia-dev-style")) return;
+    const css = `
+      .chatkia-body{
+        display:flex;
+        flex-direction:column;
+        gap:8px;
+      }
+      .chatkia-log{
+        max-height:180px;
+        min-height:96px;
+        border-radius:12px;
+        background:rgba(5,8,20,0.96);
+        border:1px solid rgba(255,255,255,0.12);
+        padding:8px;
+        font-size:11px;
+        color:var(--text-soft, #c1c7dd);
+        overflow-y:auto;
+      }
+      .chatkia-msg{
+        margin-bottom:6px;
+        line-height:1.4;
+      }
+      .chatkia-msg strong{
+        font-size:11px;
+      }
+      .chatkia-msg.user strong{
+        color:var(--accent-blue, #39c5ff);
+      }
+      .chatkia-msg.assistant strong{
+        color:var(--accent-warm, #ffb35c);
+      }
+      .chatkia-input-row{
+        display:flex;
+        flex-direction:column;
+        gap:6px;
+      }
+      .chatkia-input-row textarea{
+        width:100%;
+        border-radius:10px;
+        border:1px solid rgba(255,255,255,0.16);
+        background:rgba(5,8,20,0.96);
+        padding:6px 8px;
+        font-size:11px;
+        color:var(--text-main,#f7f7ff);
+        min-height:46px;
+        max-height:80px;
+        resize:vertical;
+        outline:none;
+      }
+      .chatkia-buttons{
+        display:flex;
+        flex-wrap:wrap;
+        gap:6px;
+        justify-content:flex-end;
+      }
+      .chatkia-btn{
+        border-radius:999px;
+        border:1px solid rgba(255,255,255,0.18);
+        background:rgba(7,10,22,0.96);
+        color:var(--text-soft,#c1c7dd);
+        font-size:10px;
+        padding:4px 9px;
+        cursor:pointer;
+        display:inline-flex;
+        align-items:center;
+        gap:4px;
+        transition:background .16s ease-out,border-color .18s ease-out,transform .12s ease-out,box-shadow .18s ease-out;
+      }
+      .chatkia-btn.primary{
+        background:linear-gradient(135deg,rgba(255,183,104,0.35),rgba(7,8,18,0.98));
+        border-color:rgba(255,185,104,0.9);
+        color:#1b0e03;
+        box-shadow:0 0 12px rgba(255,176,88,0.65);
+      }
+      .chatkia-btn:active{
+        transform:scale(0.97) translateY(1px);
+        box-shadow:0 4px 12px rgba(0,0,0,0.8);
+      }
+      .chatkia-status{
+        font-size:10px;
+        color:var(--text-muted,#8b92a6);
+        text-align:right;
+      }
+      .chatkia-key-row{
+        display:flex;
+        flex-direction:column;
+        gap:4px;
+        margin-bottom:4px;
+      }
+      .chatkia-key-row input{
+        width:100%;
+        border-radius:10px;
+        border:1px solid rgba(255,255,255,0.16);
+        background:rgba(5,8,20,0.96);
+        padding:5px 8px;
+        font-size:11px;
+        color:var(--text-main,#f7f7ff);
+        outline:none;
+      }
+      .chatkia-key-row small{
+        font-size:10px;
+        color:var(--text-muted,#8b92a6);
+      }
+    `;
+    const style = document.createElement("style");
+    style.id = "chatkia-dev-style";
+    style.textContent = css;
+    document.head.appendChild(style);
+  }
+
+  function collectAppText(){
+    function txt(sel){
+      const el = document.querySelector(sel);
+      return el ? el.textContent.trim() : "";
+    }
+    const stacks = Array.from(document.querySelectorAll("details.stack")).map((stack, idx) => {
+      const title = stack.querySelector(".stack-title")?.textContent.trim() || "";
+      const sub   = stack.querySelector(".stack-sub")?.textContent.trim() || "";
+      return { index: idx, title, sub };
+    });
+    return {
+      hero: {
+        title: txt("#heroGreeting"),
+        subtitle: txt("#heroSubtitle")
+      },
+      hash: {
+        tag: txt("#hashTag"),
+        main: txt("#hashMain")
+      },
+      stacks
+    };
+  }
+
+  function createChatStack(){
+    const stacksContainer = document.querySelector(".stacks");
+    if (!stacksContainer) return null;
+
+    const details = document.createElement("details");
+    details.className = "stack";
+    details.open = true;
+
+    details.innerHTML = `
+      <summary class="stack-summary">
+        <div class="stack-main">
+          <div class="stack-title">NUARM · ChatKIA (DEV)</div>
+          <div class="stack-sub">Usa sua chave OpenRouter local pra testar respostas, textos e receitas de stacks.</div>
+        </div>
+        <div class="stack-meta">
+          <span class="stack-pill">Dev · OpenRouter</span>
+          <div class="stack-icon secondary">🤖</div>
+        </div>
+      </summary>
+      <div class="stack-body">
+        <div class="chatkia-body">
+          <div class="chatkia-key-row">
+            <input id="chatkiaKeyInput" type="password" placeholder="Cole aqui sua chave OpenRouter (Bearer)..." />
+            <div class="chatkia-buttons" style="justify-content:space-between;gap:6px;">
+              <small id="chatkiaKeyStatus">Chave fica salva só neste dispositivo (localStorage).</small>
+              <button type="button" class="chatkia-btn" id="chatkiaKeySaveBtn">Salvar chave</button>
+            </div>
+          </div>
+          <div class="chatkia-log" id="chatkiaLog">
+            <div class="chatkia-msg assistant">
+              <strong>ChatKIA:</strong> pronto pra testar. Cole sua chave OpenRouter ali em cima e pergunta qualquer coisa.
+            </div>
+          </div>
+          <div class="chatkia-input-row">
+            <textarea id="chatkiaInput" placeholder="Ex: 'Deixa os textos desse app mais claros pra usuário leigo.'"></textarea>
+            <div class="chatkia-buttons">
+              <button type="button" class="chatkia-btn" id="chatkiaRefineBtn">Refinar textos desta tela</button>
+              <button type="button" class="chatkia-btn" id="chatkiaRecipeBtn">Receita para stacks</button>
+              <button type="button" class="chatkia-btn primary" id="chatkiaSendBtn">Perguntar pro NUARM</button>
+            </div>
+            <div class="chatkia-status" id="chatkiaStatus">Aguardando chave OpenRouter…</div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    stacksContainer.appendChild(details);
+
+    return {
+      root: details,
+      log: details.querySelector("#chatkiaLog"),
+      input: details.querySelector("#chatkiaInput"),
+      btnSend: details.querySelector("#chatkiaSendBtn"),
+      btnRefine: details.querySelector("#chatkiaRefineBtn"),
+      btnRecipe: details.querySelector("#chatkiaRecipeBtn"),
+      status: details.querySelector("#chatkiaStatus"),
+      keyInput: details.querySelector("#chatkiaKeyInput"),
+      keySaveBtn: details.querySelector("#chatkiaKeySaveBtn"),
+      keyStatus: details.querySelector("#chatkiaKeyStatus")
+    };
+  }
+
+  function initDevChat(){
+    injectChatStyles();
+    const ui = createChatStack();
+    if (!ui) return;
+
+    const state = { history: [] };
+
+    function addMessage(role, text){
+      const div = document.createElement("div");
+      div.className = "chatkia-msg " + role;
+      const label = role === "user" ? "Você" : "ChatKIA";
+      div.innerHTML = `<strong>${label}:</strong> ${text.replace(/\n/g,"<br>")}`;
+      ui.log.appendChild(div);
+      ui.log.scrollTop = ui.log.scrollHeight;
+    }
+
+    function setStatus(text){
+      if (ui.status) ui.status.textContent = text;
+    }
+
+    function loadKey(){
+      try{
+        return localStorage.getItem(STORAGE_KEY) || "";
+      }catch(e){
+        return "";
+      }
+    }
+
+    function saveKey(k){
+      try{
+        localStorage.setItem(STORAGE_KEY, k);
+      }catch(e){}
+    }
+
+    const existingKey = loadKey();
+    if (existingKey){
+      ui.keyInput.value = existingKey;
+      ui.keyStatus.textContent = "Chave OpenRouter carregada do localStorage.";
+      setStatus("Pronto. Pode perguntar pro NUARM.");
+    }
+
+    ui.keySaveBtn.addEventListener("click", () => {
+      const k = ui.keyInput.value.trim();
+      if (!k){
+        ui.keyStatus.textContent = "Cole uma chave válida antes de salvar.";
+        return;
+      }
+      saveKey(k);
+      ui.keyStatus.textContent = "Chave salva localmente (DEV). Você pode limpar quando quiser.";
+      setStatus("Chave pronta. Pode usar o ChatKIA.");
+    });
+
+    function extractJsonFromReply(raw){
+      let txt = raw.trim();
+      const fenceIndex = txt.indexOf("```");
+      if (fenceIndex !== -1){
+        const lastFence = txt.lastIndexOf("```");
+        if (lastFence > fenceIndex){
+          txt = txt.substring(fenceIndex + 3, lastFence).trim();
+          if (txt.toLowerCase().startsWith("json")){
+            txt = txt.slice(4).trim();
+          }
+        }
+      }
+      return txt;
+    }
+
+    async function sendToOpenRouter(prompt, mode){
+      const key = loadKey();
+      if (!key){
+        setStatus("Cole e salve sua chave OpenRouter primeiro.");
+        addMessage("assistant","Preciso da sua chave OpenRouter pra responder. Cola ali em cima e aperta 'Salvar chave'.");
+        return;
+      }
+      if (!prompt.trim()){
+        setStatus("Escreve alguma coisa antes de enviar.");
+        return;
+      }
+
+      addMessage("user", prompt);
+      state.history.push({ role:"user", content: prompt });
+      setStatus("Chamando OpenRouter…");
+
+      const context = collectAppText();
+
+      const systemBase =
+        "Você é o NUARM · ChatKIA dentro de um app HTML mobile-first chamado Hub1 da Infodose. " +
+        "Ajude o criador a melhorar textos, micro-cópias e sugestões. Responda em PT-BR, " +
+        "no tom acolhedor e funcional.";
+
+      const systemExtraRecipe =
+        " Quando o modo for 'recipe', responda SOMENTE com um JSON válido no formato:\n" +
+        '{ "cards": [ { "stack": "meus-cards-locais", "title": "...", "desc": "...", "url": null } ] }\n' +
+        "Sem comentários, sem texto fora do JSON, sem explicações.";
+
+      const messages = [
+        {
+          role: "system",
+          content: systemBase + (mode === "recipe" ? systemExtraRecipe : "")
+        },
+        {
+          role: "user",
+          content:
+            "Contexto atual do app (JSON, não precisa repetir literalmente na resposta, só usar como referência):\n" +
+            JSON.stringify(context, null, 2)
+        },
+        {
+          role: "user",
+          content: prompt
+        }
+      ];
+
+      try{
+        const res = await fetch(OPENROUTER_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + key,
+            "HTTP-Referer": window.location.origin,
+            "X-Title": "Hub1 · NUARM DEV"
+          },
+          body: JSON.stringify({
+            model: DEFAULT_MODEL,
+            messages
+          })
+        });
+
+        if (!res.ok){
+          setStatus("Erro HTTP " + res.status + " na chamada do OpenRouter.");
+          addMessage("assistant","OpenRouter respondeu com HTTP "+res.status+". Confere modelo e chave.");
+          return;
+        }
+
+        const data = await res.json();
+        const rawReply =
+          data.choices?.[0]?.message?.content ||
+          data.choices?.[0]?.message ||
+          "Sem reply claro do modelo. Confere o JSON de resposta no console.";
+
+        if (mode === "recipe"){
+          const jsonText = extractJsonFromReply(String(rawReply || ""));
+          addMessage("assistant","Receita (bruta):<br>" + jsonText.replace(/\n/g,"<br>"));
+
+          try{
+            JSON.parse(jsonText); // valida
+            if (typeof window.applyStackRecipe === "function"){
+              window.applyStackRecipe(jsonText);
+              setStatus("Receita aplicada. Confere em “Meus cards locais”.");
+            }else{
+              setStatus("Receita gerada, mas applyStackRecipe não está disponível.");
+              addMessage("assistant","Gerei o JSON, mas não achei applyStackRecipe(). Confere o script principal.");
+            }
+          }catch(e){
+            setStatus("Não consegui parsear o JSON que veio.");
+            addMessage("assistant","A resposta não pareceu um JSON válido. Ajusta o prompt ou copia/cola manualmente.");
+          }
+        }else{
+          const reply = String(rawReply || "");
+          addMessage("assistant", reply);
+          state.history.push({ role:"assistant", content: reply });
+          setStatus("Resposta recebida.");
+        }
+      }catch(err){
+        console.error("OpenRouter DEV error:", err);
+        setStatus("Erro de rede ao falar com OpenRouter.");
+        addMessage("assistant","Não consegui falar com o OpenRouter. Confere internet e a URL da API.");
+      }
+    }
+
+    ui.btnSend.addEventListener("click", () => {
+      const txt = ui.input.value;
+      sendToOpenRouter(txt, "chat");
+    });
+
+    ui.input.addEventListener("keydown", (ev) => {
+      if (ev.key === "Enter" && !ev.shiftKey){
+        ev.preventDefault();
+        ui.btnSend.click();
+      }
+    });
+
+    ui.btnRefine.addEventListener("click", () => {
+      const basePrompt =
+        "Olha todos os textos deste app (títulos, subtítulos, stack titles, hash) e sugere versões " +
+        "mais claras e acolhedoras, pensando num usuário leigo que abre o app pela primeira vez. " +
+        "Me mostra uma lista de sugestões por seção (Hero, Ativações, Organizar dia, Arquétipo, Viewer, Hash).";
+      ui.input.value = basePrompt;
+      ui.input.focus();
+      setStatus("Prompt de refinamento preenchido. Só enviar.");
+    });
+
+    ui.btnRecipe.addEventListener("click", () => {
+      const userHint = ui.input.value.trim();
+      const basePrompt =
+        "Gere uma receita de cards no formato JSON, apenas JSON, para eu salvar em 'meus-cards-locais'. " +
+        "Cada card deve ter: stack='meus-cards-locais', title, desc e url (pode ser null). " +
+        "Use no máximo 6 cards, focando em rotinas 3·6·9, foco leve e lembretes práticos. " +
+        "Não explique nada, apenas devolva o JSON.";
+
+      const finalPrompt = userHint
+        ? "Considerando este pedido extra do criador: \"" + userHint + "\"\n\n" + basePrompt
+        : basePrompt;
+
+      sendToOpenRouter(finalPrompt, "recipe");
+      setStatus("Gerando receita automática de stacks…");
+    });
+
+    setStatus(existingKey ? "Pronto. Usa o ChatKIA à vontade." : "Cole sua chave OpenRouter para começar.");
+  }
+
+  if (document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", initDevChat);
+  }else{
+    initDevChat();
+  }
+})();
+  </script>
+</body>
+</html>
