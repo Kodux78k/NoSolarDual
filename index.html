@@ -964,6 +964,98 @@
       text-align:center;
     }
     .log strong{color:var(--accent-warm);}
+
+    /* ====== CAP/LOCAL CÁPSULAS · Gerenciador de cápsulas ====== */
+    .capsule-manager{
+      margin-top:10px;
+      padding:8px 10px;
+      border-radius:16px;
+      background:rgba(8,11,25,0.94);
+      border:1px solid rgba(171,189,255,0.24);
+      box-shadow:0 8px 20px rgba(0,0,0,0.8);
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .capsule-manager .caps-row{
+      display:flex;
+    }
+
+    .capsule-manager input,
+    .capsule-manager textarea{
+      width:100%;
+      border:none;
+      outline:none;
+      border-radius:12px;
+      padding:6px 10px;
+      background:rgba(7,10,22,0.98);
+      border:1px solid rgba(171,189,255,0.24);
+      font-size:11px;
+      color:var(--text-main);
+      resize:vertical;
+      min-height:34px;
+      font-family:inherit;
+    }
+
+    .capsule-manager input::placeholder,
+    .capsule-manager textarea::placeholder{
+      color:var(--text-muted);
+    }
+
+    .capsule-manager textarea{
+      min-height:68px;
+    }
+
+    .capsule-manager .caps-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+    }
+
+    .capsule-manager .caps-actions button{
+      border:none;
+      outline:none;
+      border-radius:999px;
+      padding:5px 11px;
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      cursor:pointer;
+      transition:background .16s ease-out, border-color .16s ease-out, color .16s ease-out, box-shadow .18s ease-out, transform .12s ease-out;
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+      box-shadow:0 6px 14px rgba(0,0,0,0.8);
+    }
+
+    .capsule-manager .caps-actions button.primary{
+      background:linear-gradient(135deg, rgba(116,182,255,0.85), rgba(255,193,146,0.85));
+      color:#050816;
+      border:1px solid rgba(255,210,150,0.9);
+    }
+
+    .capsule-manager .caps-actions button:not(.primary){
+      background:rgba(7,10,22,0.96);
+      color:var(--text-soft);
+      border:1px solid rgba(171,189,255,0.32);
+    }
+
+    .capsule-manager .caps-actions button:hover{
+      transform:translateY(-1px);
+      box-shadow:0 10px 24px rgba(0,0,0,0.9);
+    }
+
+    .capsule-manager .caps-actions button:active{
+      transform:translateY(1px) scale(0.97);
+      box-shadow:0 4px 10px rgba(0,0,0,0.85);
+    }
+
+    .capsule-manager .caps-hint{
+      font-size:10px;
+      color:var(--text-muted);
+      padding-top:2px;
+    }
   </style>
 </head>
 <body data-theme="nebula">
@@ -1259,7 +1351,7 @@ Instruções:
         </details>
 
         <!-- Meus documentos / Corporação Cápsula -->
-        <details class="stack" id="stackDocs">
+        <details class="stack" id="stackDocs" open>
           <summary class="stack-summary">
             <div class="stack-main">
               <div class="stack-title">Meus documentos · Cápsulas</div>
@@ -1848,7 +1940,10 @@ Instruções:
 
       loadUserApps();
 
-      // lazy: só renderiza lista quando abrir "Meus documentos" pela primeira vez
+      // renderiza apps imediatamente
+      renderApps();
+
+      // lazy: também renderiza quando abrir "Meus documentos" (caso não esteja open inicialmente)
       if(docsStack){
         docsStack.addEventListener('toggle', ()=>{
           if(docsStack.open && !appsRendered){
