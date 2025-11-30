@@ -965,96 +965,276 @@
     }
     .log strong{color:var(--accent-warm);}
 
-    /* ====== CAP/LOCAL CÁPSULAS · Gerenciador de cápsulas ====== */
+    /* ============================
+       MEUS TEMAS · CHIPS VISUAIS
+       Ajuste de cores para estilo Nebula rosa
+       ============================ */
+    .theme-chip,
+    .topic-pill,
+    .meus-temas-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 11px;
+      border-radius:999px;
+      font-size:11px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      border:1px solid rgba(255,120,200,0.85);
+      color:var(--text-main);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(255,138,213,0.35), transparent 55%),
+        radial-gradient(circle at 110% 120%, rgba(71,26,77,0.9), rgba(4,5,12,0.98));
+      box-shadow:0 8px 18px rgba(0,0,0,0.85);
+    }
+    .theme-chip .dot,
+    .topic-pill .dot,
+    .meus-temas-chip .dot{
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:linear-gradient(135deg,#ffb7ff,#ff4fa8);
+      box-shadow:0 0 10px rgba(255,120,200,0.95);
+    }
+
+    /* ============================
+       CAPSULE MANAGER · FORM
+       ============================ */
     .capsule-manager{
       margin-top:10px;
-      padding:8px 10px;
-      border-radius:16px;
-      background:rgba(8,11,25,0.94);
-      border:1px solid rgba(171,189,255,0.24);
-      box-shadow:0 8px 20px rgba(0,0,0,0.8);
+      padding:10px 11px;
+      border-radius:18px;
+      background:rgba(7,10,24,0.96);
+      border:1px solid rgba(171,189,255,0.26);
+      box-shadow:0 12px 28px rgba(0,0,0,0.88);
       display:flex;
       flex-direction:column;
       gap:8px;
     }
-
-    .capsule-manager .caps-row{
+    .caps-row{
       display:flex;
+      flex-direction:column;
+      gap:6px;
     }
-
-    .capsule-manager input,
-    .capsule-manager textarea{
+    .caps-input{
       width:100%;
-      border:none;
-      outline:none;
-      border-radius:12px;
-      padding:6px 10px;
-      background:rgba(7,10,22,0.98);
-      border:1px solid rgba(171,189,255,0.24);
-      font-size:11px;
+      border-radius:14px;
+      border:1px solid rgba(171,189,255,0.35);
+      background:rgba(5,8,20,0.96);
+      padding:7px 10px;
+      font-size:12px;
       color:var(--text-main);
-      resize:vertical;
-      min-height:34px;
-      font-family:inherit;
+      outline:none;
+      box-shadow:0 6px 16px rgba(0,0,0,0.7) inset;
     }
-
-    .capsule-manager input::placeholder,
-    .capsule-manager textarea::placeholder{
+    .caps-input::placeholder{
       color:var(--text-muted);
+      opacity:.8;
     }
-
-    .capsule-manager textarea{
-      min-height:68px;
+    .caps-input-soft{
+      font-size:11px;
     }
-
-    .capsule-manager .caps-actions{
+    .caps-input:focus{
+      border-color:rgba(255,210,150,0.85);
+      box-shadow:0 0 0 1px rgba(255,210,150,0.45), 0 10px 20px rgba(0,0,0,0.9) inset;
+    }
+    .caps-actions{
       display:flex;
       flex-wrap:wrap;
       gap:6px;
+      margin-top:6px;
     }
-
-    .capsule-manager .caps-actions button{
+    .btn-pill{
       border:none;
       outline:none;
       border-radius:999px;
       padding:5px 11px;
-      font-size:10px;
+      font-size:11px;
+      letter-spacing:.08em;
       text-transform:uppercase;
-      letter-spacing:.12em;
+      background:rgba(7,10,24,0.96);
+      border:1px solid rgba(171,189,255,0.4);
+      color:var(--text-soft);
       cursor:pointer;
-      transition:background .16s ease-out, border-color .16s ease-out, color .16s ease-out, box-shadow .18s ease-out, transform .12s ease-out;
       display:inline-flex;
       align-items:center;
       gap:4px;
-      box-shadow:0 6px 14px rgba(0,0,0,0.8);
+      box-shadow:0 7px 16px rgba(0,0,0,0.85);
+      transition:background .16s ease-out, border-color .16s ease-out,
+                 color .16s ease-out, transform .12s ease-out,
+                 box-shadow .18s ease-out;
     }
-
-    .capsule-manager .caps-actions button.primary{
-      background:linear-gradient(135deg, rgba(116,182,255,0.85), rgba(255,193,146,0.85));
+    .btn-pill.primary{
+      background:linear-gradient(135deg,#75b4ff,#ffbf89);
       color:#050816;
-      border:1px solid rgba(255,210,150,0.9);
+      border-color:rgba(255,228,180,0.92);
     }
-
-    .capsule-manager .caps-actions button:not(.primary){
-      background:rgba(7,10,22,0.96);
-      color:var(--text-soft);
-      border:1px solid rgba(171,189,255,0.32);
+    .btn-pill.danger{
+      border-color:rgba(255,107,129,0.9);
+      color:var(--danger);
     }
-
-    .capsule-manager .caps-actions button:hover{
+    .btn-pill:hover{
       transform:translateY(-1px);
-      box-shadow:0 10px 24px rgba(0,0,0,0.9);
+      box-shadow:0 10px 22px rgba(0,0,0,0.92);
     }
-
-    .capsule-manager .caps-actions button:active{
+    .btn-pill:active{
       transform:translateY(1px) scale(0.97);
-      box-shadow:0 4px 10px rgba(0,0,0,0.85);
+      box-shadow:0 5px 12px rgba(0,0,0,0.9);
+    }
+    .caps-tip{
+      margin-top:4px;
+      font-size:11px;
+      color:var(--text-muted);
     }
 
-    .capsule-manager .caps-hint{
-      font-size:10px;
+    /* ============================
+       VIEWER · CAPS
+       ============================ */
+    .caps-viewer-shell{
+      margin-top:12px;
+      border-radius:20px;
+      border:1px solid rgba(156,178,255,0.40);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(100,152,255,0.12), transparent 55%),
+        radial-gradient(circle at 110% 120%, rgba(255,193,146,0.18), transparent 55%),
+        rgba(5,8,18,0.96);
+      box-shadow:0 16px 38px rgba(0,0,0,0.9);
+      overflow:hidden;
+      transition:border-color .18s ease-out, box-shadow .2s ease-out,
+                background .2s ease-out, height .22s ease-out;
+    }
+    .caps-viewer-shell.expanded{
+      height:calc(100vh - 210px);
+      max-height:calc(100vh - 150px);
+      border-color:rgba(255,210,150,0.95);
+      box-shadow:0 22px 56px rgba(0,0,0,0.96);
+    }
+    .caps-viewer-header{
+      padding:8px 11px 6px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:8px;
+    }
+    .caps-viewer-meta strong{
+      display:block;
+      font-size:12px;
+      color:var(--text-main);
+    }
+    .caps-viewer-meta span{
+      display:block;
+      font-size:11px;
       color:var(--text-muted);
-      padding-top:2px;
+    }
+    .caps-viewer-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:5px;
+      justify-content:flex-end;
+    }
+    .btn-micro{
+      border:none;
+      outline:none;
+      border-radius:999px;
+      padding:3px 8px;
+      font-size:10px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      background:rgba(7,10,24,0.96);
+      border:1px solid rgba(171,189,255,0.5);
+      color:var(--text-soft);
+      cursor:pointer;
+      transition:background .16s ease-out, color .16s ease-out,
+                 border-color .16s ease-out, transform .12s ease-out,
+                 box-shadow .18s ease-out;
+    }
+    .btn-micro:disabled{
+      opacity:.45;
+      cursor:default;
+      box-shadow:none;
+    }
+    .btn-micro:not(:disabled):hover{
+      border-color:rgba(255,210,150,0.9);
+      color:var(--text-main);
+      transform:translateY(-1px);
+      box-shadow:0 8px 18px rgba(0,0,0,0.85);
+    }
+    .btn-micro:not(:disabled):active{
+      transform:translateY(1px) scale(0.97);
+      box-shadow:0 4px 10px rgba(0,0,0,0.9);
+    }
+    .caps-viewer-body{
+      border-top:1px solid rgba(105,126,220,0.45);
+      background:#02030a;
+    }
+    #capsViewerFrame{
+      width:100%;
+      height:240px;
+      border:none;
+      display:block;
+    }
+
+    /* Override theme chips to Nebula pink style */
+    .theme-chip{
+      border:1px solid rgba(255,120,200,0.85);
+      color:var(--text-main);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(255,138,213,0.35), transparent 55%),
+        radial-gradient(circle at 110% 120%, rgba(71,26,77,0.9), rgba(4,5,12,0.98));
+      box-shadow:0 8px 18px rgba(0,0,0,0.85);
+    }
+    .theme-chip span.dot{
+      width:9px;height:9px;border-radius:999px;
+      background:linear-gradient(135deg,#ffb7ff,#ff4fa8);
+      box-shadow:0 0 10px rgba(255,120,200,0.95);
+    }
+    .theme-chip.active{
+      border-color:rgba(255,120,200,1);
+      box-shadow:0 0 18px rgba(255,120,200,0.8);
+      background:linear-gradient(135deg,rgba(255,183,217,0.35),rgba(13,10,14,0.98));
+      color:#050816;
+    }
+
+    /* ============================
+       CARDS FLUTUANTES DOS APPS
+       ============================ */
+    #floatingAppsZone .stack-note{
+      font-size:11px;
+      color:var(--text-muted);
+    }
+    .floating-app{
+      margin-top:8px;
+      border-radius:18px;
+      border:1px solid rgba(171,189,255,0.32);
+      background:rgba(7,10,24,0.96);
+      box-shadow:0 14px 32px rgba(0,0,0,0.92);
+      overflow:hidden;
+    }
+    .floating-app iframe{
+      width:100%;
+      height:620px;
+      border:none;
+      display:block;
+      background:#02030a;
+    }
+    .floating-app .stack-summary{
+      padding-right:60px;
+    }
+    .floating-remove{
+      position:absolute;
+      right:12px;
+      top:9px;
+      border:none;
+      outline:none;
+      border-radius:999px;
+      width:20px;
+      height:20px;
+      display:grid;
+      place-items:center;
+      font-size:11px;
+      background:rgba(40,6,6,0.95);
+      color:var(--danger);
+      cursor:pointer;
     }
   </style>
 </head>
@@ -1132,6 +1312,20 @@
                 <span class="panel-pill"><i>⟳</i>5min</span>
               </li>
             </ul>
+          </div>
+        </details>
+
+        <!-- STACK · MEUS APPS EM CARDS (PLAY STORE PESSOAL) -->
+        <details class="stack" id="stackFloating">
+          <summary class="stack-summary">
+            <div class="stack-title">Meus apps em cards</div>
+            <div class="stack-label">Play Store mental · cards flutuantes</div>
+          </summary>
+          <div class="stack-body" id="floatingAppsZone">
+            <div class="stack-note">
+              Nenhum card ainda. Use o botão <b>Abrir em card</b> no viewer lá em cima
+              pra soltar apps aqui.
+            </div>
           </div>
         </details>
 
@@ -1350,12 +1544,12 @@ Instruções:
           </div>
         </details>
 
-        <!-- Meus documentos / Corporação Cápsula -->
-        <details class="stack" id="stackDocs" open>
+        <!-- Meus documentos · Cápsulas -->
+        <details class="stack" id="stackDocs">
           <summary class="stack-summary">
             <div class="stack-main">
               <div class="stack-title">Meus documentos · Cápsulas</div>
-              <div class="stack-sub">Apps, livros vivos e PWAs em um lugar só.</div>
+              <div class="stack-subtitle">Apps, livros vivos e PWAs em um lugar só.</div>
             </div>
             <div class="stack-meta">
               <span class="stack-pill">apps.json · viewer · localStorage</span>
@@ -1363,51 +1557,58 @@ Instruções:
             </div>
           </summary>
           <div class="stack-body">
-            <div class="panel-row" data-log="Entrou em documentos rápidos">
-              <div class="panel-row-main">
-                <strong>Pastas rápidas</strong>
-                <span class="meta">Use como rascunho mental, sem depender de drive.</span>
-              </div>
-            </div>
+            <p class="stack-subtitle">Pastas rápidas</p>
+            <p class="stack-text">
+              Use como “raspa-menteal”: salva apps que você está usando agora
+              pra não depender de drive ou favoritos.
+            </p>
 
-            <!-- GRID de cápsulas -->
-            <div class="pill-grid" id="appsGrid"></div>
-
-            <div class="stack-note">
-              Toque em uma cápsula para abrir o app aqui embaixo, dentro do próprio Hub.  
-              Cápsulas locais são salvas no navegador e podem ser exportadas/importadas.
-            </div>
-
-            <!-- GERENCIADOR DE CÁPSULAS -->
+            <!-- FORM · CRIAR / IMPORTAR CÁPSULAS -->
             <div class="capsule-manager">
               <div class="caps-row">
-                <input id="capTitle" placeholder="Nome da cápsula (ex: Oráculo Local)" />
+                <input id="capName" class="caps-input" type="text"
+                       placeholder="Nome da cápsula (ex: Oráculo UnoUno)">
+                <input id="capUrl" class="caps-input" type="text"
+                       placeholder="Cole um link ou HTML do app (href/src ou URL)…">
               </div>
               <div class="caps-row">
-                <textarea id="capContent" placeholder="Cole um link ou HTML do app (href/src ou URL)..."></textarea>
+                <input id="capGroup" class="caps-input caps-input-soft" type="text"
+                       placeholder="Grupo / pasta (opcional, ex: Oráculos, Estudo, Cliente X)…">
               </div>
+
               <div class="caps-actions">
-                <button class="primary" type="button" id="capAdd">Salvar cápsula</button>
-                <button type="button" id="capExport">Exportar JSON</button>
-                <button type="button" id="capImport">Importar JSON</button>
-                <button type="button" id="capClear">Limpar locais</button>
+                <button type="button" class="btn-pill primary" id="btnSaveCap">Salvar cápsula</button>
+                <button type="button" class="btn-pill" id="btnExportCaps">Exportar JSON</button>
+                <button type="button" class="btn-pill" id="btnImportCaps">Importar JSON</button>
+                <button type="button" class="btn-pill danger" id="btnClearCaps">Limpar locais</button>
               </div>
-              <p class="caps-hint">
+
+              <p class="caps-tip" id="capsDynamicTip">
                 Dica: pode colar o HTML inteiro do app; eu tento achar o primeiro <code>href</code> ou <code>src</code>.
               </p>
             </div>
 
-            <div class="livro-viewer viewer-shell" id="livroViewer">
-              <div class="viewer-header">
-                <span class="viewer-header-title">Viewer de cápsulas</span>
-                <button type="button" class="viewer-toggle" data-target="livroViewer">
-                  <span class="icon">⤢</span><span class="label">Expandir</span>
-                </button>
-              </div>
-              <div class="viewer-body" id="livroBody">
-                <div class="livro-empty">
-                  Escolha uma das cápsulas acima para abrir o app via <code>iframe</code> dentro do Hub1.
+            <!-- LISTA DE CÁPSULAS (SEEDS + LOCAIS) -->
+            <div class="pill-grid" id="appsGrid"></div>
+            <div class="stack-note" id="appsEmptyNote">
+              Nenhuma cápsula ainda. Os 4 apps base aparecem aqui assim que você abrir o Hub.
+            </div>
+
+            <!-- VIEWER PRINCIPAL DAS CÁPSULAS -->
+            <div class="caps-viewer-shell" id="capsViewerShell">
+              <div class="caps-viewer-header">
+                <div class="caps-viewer-meta">
+                  <strong id="capsViewerTitle">Viewer de cápsulas</strong>
+                  <span id="capsViewerSubtitle">Escolha uma cápsula acima para abrir aqui dentro.</span>
                 </div>
+                <div class="caps-viewer-actions">
+                  <button type="button" class="btn-micro" id="btnCapsExpand">Expandir</button>
+                  <button type="button" class="btn-micro" id="btnCapsSpawnCard" disabled>Abrir em card</button>
+                  <button type="button" class="btn-micro" id="btnCapsNewTab" disabled>Abrir em aba</button>
+                </div>
+              </div>
+              <div class="caps-viewer-body">
+                <iframe id="capsViewerFrame" loading="lazy" referrerpolicy="no-referrer"></iframe>
               </div>
             </div>
           </div>
@@ -1822,6 +2023,7 @@ Instruções:
       });
 
       /* ====== CORPORAÇÃO CÁPSULA: appsGrid + localStorage ====== */
+      /*
       const livroViewer = document.getElementById('livroViewer');
       const livroBody = document.getElementById('livroBody');
       const appsGrid = document.getElementById('appsGrid');
@@ -1940,10 +2142,7 @@ Instruções:
 
       loadUserApps();
 
-      // renderiza apps imediatamente
-      renderApps();
-
-      // lazy: também renderiza quando abrir "Meus documentos" (caso não esteja open inicialmente)
+      // lazy: só renderiza lista quando abrir "Meus documentos" pela primeira vez
       if(docsStack){
         docsStack.addEventListener('toggle', ()=>{
           if(docsStack.open && !appsRendered){
@@ -2032,7 +2231,345 @@ Instruções:
         });
       }
 
-      /* ====== CHAT SOLAR · OPENROUTER multi-model ====== */
+      //
+      // ====== CHAT SOLAR · OPENROUTER multi-model ======
+      // ====== MEUS DOCUMENTOS · LÓGICA ======
+      // definindo apps base (seed). Cada app tem key, name, url, origin e grupo opcional.
+      const CAPS_SEED_APPS = [
+        {
+          key: 'info-doc',
+          name: 'Info-Doc',
+          url: 'https://kodux78k.github.io/info-Doc/index.html',
+          origin: 'seed',
+          group: 'Docs'
+        },
+        {
+          key: 'dual-editor',
+          name: 'Dual Editor · Kodux',
+          url: 'https://kodux78k.github.io/Dual-Editor/',
+          origin: 'seed',
+          group: 'Criação'
+        },
+        {
+          key: 'nos-solar',
+          name: 'Nos.S°lar – dual.infodose',
+          url: 'https://kodux78k.github.io/NosSolar-dualInfodose/',
+          origin: 'seed',
+          group: 'Solar'
+        },
+        {
+          key: 'uno-uno',
+          name: 'UnoUno • Oráculo Dual',
+          url: 'https://kodux78k.github.io/Unouno-/index.html',
+          origin: 'seed',
+          group: 'Oráculos'
+        }
+      ];
+
+      // chaves para localStorage
+      const LS_APPS_LOCAL = 'hub1.caps.localApps';
+      const LS_HIDDEN_SEEDS = 'hub1.caps.hiddenSeeds';
+      const LS_FLOATING = 'hub1.caps.floatingCards';
+
+      let localApps = [];
+      let hiddenSeeds = new Set();
+      let floatingApps = [];
+      let currentApp = null;
+
+      // carregar estado de localStorage
+      try{
+        localApps = JSON.parse(localStorage.getItem(LS_APPS_LOCAL) || '[]');
+      }catch(e){
+        localApps = [];
+      }
+      try{
+        hiddenSeeds = new Set(JSON.parse(localStorage.getItem(LS_HIDDEN_SEEDS) || '[]'));
+      }catch(e){
+        hiddenSeeds = new Set();
+      }
+      try{
+        floatingApps = JSON.parse(localStorage.getItem(LS_FLOATING) || '[]');
+      }catch(e){
+        floatingApps = [];
+      }
+
+      function saveLocalApps(){
+        localStorage.setItem(LS_APPS_LOCAL, JSON.stringify(localApps));
+      }
+      function saveHiddenSeeds(){
+        localStorage.setItem(LS_HIDDEN_SEEDS, JSON.stringify([...hiddenSeeds]));
+      }
+      function saveFloatingApps(){
+        localStorage.setItem(LS_FLOATING, JSON.stringify(floatingApps));
+      }
+
+      // frases dinâmicas para dica
+      const CAPS_TIPS = [
+        'Uma cápsula por dia já é 1% de avanço.',
+        'Use grupos pra organizar por cliente, projeto ou vibe.',
+        'Lembra: isso aqui é sua Play Store mental, não do Google.',
+        'Você pode esconder os apps base que não estiver usando agora.'
+      ];
+      function pickCapsTip(){
+        const el = document.getElementById('capsDynamicTip');
+        if(!el) return;
+        const t = CAPS_TIPS[Math.floor(Math.random()*CAPS_TIPS.length)];
+        el.innerHTML = t;
+      }
+
+      // elementos da página
+      const appsGrid = document.getElementById('appsGrid');
+      const appsEmpty = document.getElementById('appsEmptyNote');
+      const capsFrame = document.getElementById('capsViewerFrame');
+      const capsTitle = document.getElementById('capsViewerTitle');
+      const capsSubtitle = document.getElementById('capsViewerSubtitle');
+      const btnSpawnCard = document.getElementById('btnCapsSpawnCard');
+      const btnNewTab = document.getElementById('btnCapsNewTab');
+      const btnExpand = document.getElementById('btnCapsExpand');
+      const capsShell = document.getElementById('capsViewerShell');
+      const floatingZone = document.getElementById('floatingAppsZone');
+
+      // compila lista de todos apps (seeds visíveis + locais)
+      function getAllApps(){
+        const visibleSeeds = CAPS_SEED_APPS.filter(a => !hiddenSeeds.has(a.key));
+        const locals = (localApps || []).map(app => ({
+          ...app,
+          origin: 'local'
+        }));
+        return [...visibleSeeds, ...locals];
+      }
+
+      // renderiza lista de apps no grid
+      function renderApps(){
+        if(!appsGrid) return;
+        appsGrid.innerHTML = '';
+        const all = getAllApps();
+        if(all.length === 0){
+          if(appsEmpty) appsEmpty.style.display = 'block';
+        }else{
+          if(appsEmpty) appsEmpty.style.display = 'none';
+        }
+        all.forEach(app=>{
+          const pill = document.createElement('button');
+          pill.type = 'button';
+          pill.className = 'pill';
+          pill.dataset.key = app.key;
+          pill.dataset.origin = app.origin || 'seed';
+          pill.innerHTML = `
+            <div class="pill-main">
+              <div class="pill-title">${app.name}</div>
+              <div class="pill-desc">${app.group ? '['+app.group+'] ' : ''}${app.url}</div>
+            </div>
+            <div class="pill-actions">
+              <span class="pill-badge">${(app.origin || 'seed') === 'seed' ? 'base' : 'local'}</span>
+              ${(app.origin || 'seed') === 'seed'
+                ? '<button class="pill-del" type="button" title="Ocultar app base">×</button>'
+                : '<button class="pill-del" type="button" title="Apagar cápsula local">×</button>'}
+            </div>
+          `;
+          appsGrid.appendChild(pill);
+        });
+      }
+
+      // abrir app no viewer
+      function openAppInViewer(app){
+        if(!capsFrame) return;
+        currentApp = app;
+        capsFrame.src = app.url;
+        if(capsTitle) capsTitle.textContent = app.name;
+        if(capsSubtitle) capsSubtitle.textContent = app.group ? app.group : app.url;
+        if(btnSpawnCard) btnSpawnCard.disabled = false;
+        if(btnNewTab) btnNewTab.disabled = false;
+      }
+
+      // remover ou esconder app
+      function deleteAppByKey(key, origin){
+        if(origin === 'seed'){
+          hiddenSeeds.add(key);
+          saveHiddenSeeds();
+        }else{
+          localApps = localApps.filter(a => a.key !== key);
+          saveLocalApps();
+        }
+        renderApps();
+      }
+
+      // render cards flutuantes
+      function renderFloating(){
+        if(!floatingZone) return;
+        floatingZone.innerHTML = '';
+        if(!floatingApps.length){
+          const note = document.createElement('div');
+          note.className = 'stack-note';
+          note.innerHTML = 'Nenhum card ainda. Use “Abrir em card” no viewer pra soltar apps aqui.';
+          floatingZone.appendChild(note);
+          return;
+        }
+        floatingApps.forEach((app, idx)=>{
+          const d = document.createElement('details');
+          d.className = 'stack floating-app';
+          d.open = idx === 0;
+          d.innerHTML = `
+            <summary class="stack-summary">
+              <div class="stack-title">${app.name}</div>
+              <div class="stack-label">${app.group || 'App em card'}</div>
+              <button type="button" class="floating-remove" data-idx="${idx}">×</button>
+            </summary>
+            <div class="stack-body">
+              <iframe src="${app.url}" loading="lazy" referrerpolicy="no-referrer"></iframe>
+            </div>
+          `;
+          floatingZone.appendChild(d);
+        });
+      }
+
+      // capturar cliques nos apps e nos botões
+      document.addEventListener('click', (ev)=>{
+        const pill = ev.target.closest('#appsGrid .pill');
+        const del = ev.target.closest('#appsGrid .pill-del');
+        const removeFloating = ev.target.closest('.floating-remove');
+        // abrir app
+        if(pill && !del){
+          const key = pill.dataset.key;
+          const origin = pill.dataset.origin || 'seed';
+          const all = getAllApps();
+          const app = all.find(a => a.key === key);
+          if(app) openAppInViewer(app);
+          return;
+        }
+        // apagar / esconder app
+        if(del){
+          const parentPill = del.closest('.pill');
+          if(!parentPill) return;
+          const key = parentPill.dataset.key;
+          const origin = parentPill.dataset.origin || 'seed';
+          deleteAppByKey(key, origin);
+          ev.stopPropagation();
+          return;
+        }
+        // remover card flutuante
+        if(removeFloating){
+          const idx = Number(removeFloating.dataset.idx);
+          if(!Number.isNaN(idx)){
+            floatingApps.splice(idx,1);
+            saveFloatingApps();
+            renderFloating();
+          }
+          ev.stopPropagation();
+          return;
+        }
+      });
+
+      // botões do viewer
+      if(btnSpawnCard){
+        btnSpawnCard.addEventListener('click', ()=>{
+          if(!currentApp) return;
+          floatingApps.push({
+            key: currentApp.key,
+            name: currentApp.name,
+            url: currentApp.url,
+            group: currentApp.group || ''
+          });
+          saveFloatingApps();
+          renderFloating();
+        });
+      }
+      if(btnNewTab){
+        btnNewTab.addEventListener('click', ()=>{
+          if(!currentApp) return;
+          window.open(currentApp.url, '_blank');
+        });
+      }
+      if(btnExpand && capsShell){
+        btnExpand.addEventListener('click', ()=>{
+          capsShell.classList.toggle('expanded');
+          btnExpand.textContent = capsShell.classList.contains('expanded') ? 'Reduzir' : 'Expandir';
+        });
+      }
+
+      // salvar nova cápsula
+      const capName = document.getElementById('capName');
+      const capUrl = document.getElementById('capUrl');
+      const capGroup = document.getElementById('capGroup');
+      const btnSaveCap = document.getElementById('btnSaveCap');
+
+      if(btnSaveCap){
+        btnSaveCap.addEventListener('click', ()=>{
+          const name = (capName?.value || '').trim();
+          const urlRaw = (capUrl?.value || '').trim();
+          const group = (capGroup?.value || '').trim();
+          if(!name || !urlRaw) return;
+          let url = urlRaw;
+          // se colar HTML, tenta achar primeiro href/src
+          if(urlRaw.includes('<')){
+            const hrefMatch = urlRaw.match(/href=\"([^\"]+)\"/i);
+            const srcMatch = urlRaw.match(/src=\"([^\"]+)\"/i);
+            url = hrefMatch?.[1] || srcMatch?.[1] || urlRaw;
+          }
+          const key = 'local-' + Date.now().toString(36);
+          localApps.push({ key, name, url, group, origin:'local' });
+          saveLocalApps();
+          renderApps();
+          if(capName) capName.value = '';
+          if(capUrl) capUrl.value = '';
+          if(capGroup) capGroup.value = '';
+        });
+      }
+
+      // exportar / importar / limpar
+      const btnExportCaps = document.getElementById('btnExportCaps');
+      const btnImportCaps = document.getElementById('btnImportCaps');
+      const btnClearCaps = document.getElementById('btnClearCaps');
+
+      if(btnExportCaps){
+        btnExportCaps.addEventListener('click', ()=>{
+          const blob = new Blob([JSON.stringify(localApps,null,2)], {type:'application/json'});
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'capsulas-hub1.json';
+          a.click();
+          URL.revokeObjectURL(url);
+        });
+      }
+      if(btnImportCaps){
+        btnImportCaps.addEventListener('click', ()=>{
+          const input = document.createElement('input');
+          input.type = 'file';
+          input.accept = 'application/json';
+          input.onchange = ()=>{
+            const file = input.files?.[0];
+            if(!file) return;
+            const reader = new FileReader();
+            reader.onload = e=>{
+              try{
+                const data = JSON.parse(e.target.result);
+                if(Array.isArray(data)){
+                  localApps = data;
+                  saveLocalApps();
+                  renderApps();
+                }
+              }catch(err){
+                console.error('Falha ao importar JSON de cápsulas', err);
+              }
+            };
+            reader.readAsText(file);
+          };
+          input.click();
+        });
+      }
+      if(btnClearCaps){
+        btnClearCaps.addEventListener('click', ()=>{
+          localApps = [];
+          saveLocalApps();
+          renderApps();
+        });
+      }
+
+      // inicialização
+      renderApps();
+      renderFloating();
+      pickCapsTip();
       const chatMessages = document.getElementById('chatMessages');
       const chatInput = document.getElementById('chatInput');
       const chatSend = document.getElementById('chatSend');
